@@ -208,6 +208,529 @@
                 ]
             }
         },
+        "/api/characters/": {
+            "get": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Список персов",
+                "operationId": "8716978cea00d11d94612298e2370aea",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список персов",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CharactersResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/characters/my-characters": {
+            "get": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Список персов",
+                "operationId": "e0220967e49f8037e16c184d0d5d9dc1",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список персов",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CharactersResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/characters/create": {
+            "post": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Создание 'пустого' персонажа",
+                "operationId": "1066166d0d62dfa582067d12aed0fb92",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCharacterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Перс успешно создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CharactersShowResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/characters/{character}/verification-data": {
+            "post": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Создание данных для проверки у персонажа",
+                "operationId": "d6d972aca6e4fac508d0be2e6e4b9186",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCharacterReviewDataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Данные ушли на проверку"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/characters/{character}/update-verification-data": {
+            "post": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Обновление данных для проверки у персонажа (уже созданного до этого)",
+                "operationId": "1782757c3e86125213db308b1a468444",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCharacterReviewDataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Данные ушли на проверку"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/characters/add-meta": {
+            "post": {
+                "tags": [
+                    "CharacterMeta"
+                ],
+                "summary": "Создание 'пустого' персонажа",
+                "operationId": "83d7e18f7148e27ab381620ccedc0831",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCharacterMetaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Перс успешно создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CharacterMetaResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/": {
+            "get": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Get list of characters with diffs",
+                "operationId": "0a3ef896816b3c63893bb4ad9db62a9b",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "description": "Without pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 50,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of characters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DiffIndexResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/{character}/show": {
+            "get": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Get diffs for a character",
+                "operationId": "680a09c9ca6bda3a3781824f8f779079",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Character and diffs",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/{character}/accept-all": {
+            "post": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Accept all diffs for a character",
+                "operationId": "a78be27d9efac1a99a25778fcb97aac9",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All diffs applied",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/{character}/accept-selectively": {
+            "post": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Accept selected diffs for a character",
+                "operationId": "f18e9a4b7e09bae76eaf776229b7c16a",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ids"
+                                ],
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Selected diffs applied",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/{character}/reject-all": {
+            "post": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Reject all diffs for a character",
+                "operationId": "855a353c8ac87fb117e346f9b6e2e1ad",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All diffs rejected",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/diffs/{character}/reject-selectively": {
+            "post": {
+                "tags": [
+                    "Diffs"
+                ],
+                "summary": "Reject selected diffs for a character",
+                "operationId": "a6c6198d9791cc64d96f58dfb8f34421",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ids"
+                                ],
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Selected diffs rejected",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/npcs/": {
             "get": {
                 "tags": [
@@ -850,6 +1373,15 @@
                 },
                 "type": "object"
             },
+            "CreateCharacterRequest": {
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "CreateNpcRequest": {
                 "properties": {
                     "name": {
@@ -912,6 +1444,96 @@
                 },
                 "type": "object"
             },
+            "StoreCharacterMetaRequest": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "character_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "likes": {
+                        "type": "string",
+                        "example": "dsadsadsadsa"
+                    },
+                    "dislikes": {
+                        "type": "string",
+                        "example": "sadsadsadasdsa"
+                    },
+                    "text_color": {
+                        "type": "string",
+                        "example": "ADLSJDA"
+                    },
+                    "background_color": {
+                        "type": "string",
+                        "example": "dsadsad"
+                    },
+                    "accent_color": {
+                        "type": "string",
+                        "example": "dasdsadsa"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCharacterReviewDataRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John the Blacksmith"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Cool description"
+                    },
+                    "occupation": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "race": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "biography": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "personality": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "appearance": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "contracts": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "artifacts": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "magic_skills": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "non_magic_skills": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    }
+                },
+                "type": "object"
+            },
             "StoreTagRequest": {
                 "required": [
                     "name"
@@ -965,6 +1587,63 @@
                     "role": {
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCharacterReviewDataRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John the Blacksmith"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Cool description"
+                    },
+                    "occupation": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "race": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "biography": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "personality": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "appearance": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "contracts": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "artifacts": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "magic_skills": {
+                        "type": "string",
+                        "example": "Master Artisan"
+                    },
+                    "non_magic_skills": {
+                        "type": "string",
+                        "example": "Master Artisan"
                     }
                 },
                 "type": "object"
@@ -1028,6 +1707,138 @@
                     "role": {
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "CharacterMetaResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "character_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "likes": {
+                        "type": "string",
+                        "example": "dsadsadsadsa"
+                    },
+                    "dislikes": {
+                        "type": "string",
+                        "example": "sadsadsadasdsa"
+                    },
+                    "text_color": {
+                        "type": "string",
+                        "example": "ADLSJDA"
+                    },
+                    "background_color": {
+                        "type": "string",
+                        "example": "dsadsad"
+                    },
+                    "accent_color": {
+                        "type": "string",
+                        "example": "dasdsadsa"
+                    }
+                },
+                "type": "object"
+            },
+            "CharactersResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "CharactersShowResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "A brave hero"
+                    },
+                    "occupation": {
+                        "type": "string",
+                        "example": "Warrior"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 30
+                    },
+                    "race": {
+                        "type": "string",
+                        "example": "Human"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Male"
+                    },
+                    "biography": {
+                        "type": "string",
+                        "example": "Born in..."
+                    },
+                    "personality": {
+                        "type": "string",
+                        "example": "Brave, loyal"
+                    },
+                    "appearance": {
+                        "type": "string",
+                        "example": "Tall, brown hair"
+                    },
+                    "contracts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "artifacts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "magic_skills": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "non_magic_skills": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "DiffIndexResource": {
+                "properties": {
+                    "character": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/CharactersResource"
+                            }
+                        ],
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -1138,6 +1949,18 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Characters",
+            "description": "Characters"
+        },
+        {
+            "name": "CharacterMeta",
+            "description": "CharacterMeta"
+        },
+        {
+            "name": "Diffs",
+            "description": "Diffs"
         },
         {
             "name": "NPCs",

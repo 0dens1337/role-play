@@ -18,7 +18,7 @@ docker compose up -d --build
 docker compose up -d --remove-orphans
 ```
 
-установка зависимостей и дополнительные шаги для настройки рабочего окружения Laravel 
+установка зависимостей и дополнительные шаги для настройки рабочего окружения Laravel, создание админа.
 ```bash
 docker exec -it php composer install
 ```
@@ -28,7 +28,11 @@ docker exec -it php php artisan migrate
 ```
 
 ```bash
-docker exec -it php php artisan db:seed
+docker exec -it php php artisan tinker
+```
+
+```bash
+User::create(['login' => 'admin_1', 'email' => 'admin@mail.ru', 'role' => 3, 'password' => bcrypt('вставь_свой_пароль')])
 ```
 
 ```bash

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\AddTagController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CharacterController;
+use App\Http\Controllers\Api\CharacterMetaController;
+use App\Http\Controllers\Api\DiffController;
 use App\Http\Controllers\Api\NpcController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
@@ -39,5 +42,33 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('add-tags')->name('add-tags.')->group(function () {
         Route::post('/{npc}/npc', [AddTagController::class, 'forNpc'])->name('npc');
+    });
+
+    Route::prefix('characters')->name('characters.')->group(function () {
+        Route::get('/', [CharacterController::class, 'index'])->name('index');
+        Route::get('my-characters', [CharacterController::class, 'authUserCharacters'])->name('my-characters');
+        Route::post('create', [CharacterController::class, 'create'])->name('create');
+        Route::post('/add-meta', [CharacterMetaController::class, 'create'])->name('add-meta');
+        Route::post('{character}/verification-data', [CharacterController::class, 'createReviewData'])->name('verification-data');
+        Route::post('/{character}/update-verification-data', [CharacterController::class, 'updateReviewData'])->name('update-verification-data');
+    });
+
+    Route::prefix('/admin')->name('admin.')->group(function () {
+        Route::prefix('/characters')->name('characters.')->group(function () {
+            Route::get('/', [CharacterController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('/diffs')->name('diffs.')->group(function () {
+            Route::get('/', [DiffController::class, 'index'])->name('index');
+            Route::get('/{character}/show', [DiffController::class, 'show'])->name('show');
+            Route::post('/{character}/accept-all', [DiffController::class, 'acceptAll'])->name('accept-all');
+            Route::post('/{character}/accept-selectively', [DiffController::class, 'acceptSelectively'])->name('accept-selectively');
+            Route::post('/{character}/reject-all', [DiffController::class, 'rejectAll'])->name('reject-all');
+            Route::post('/{character}/reject-selectively', [DiffController::class, 'rejectSelectively'])->name('reject-selectively');
+        });
+
+        Route::prefix('/npcs')->name('npcs.')->group(function () {
+            Route::get('/', [NpcController::class, 'index'])->name('index');
+        });
     });
 });

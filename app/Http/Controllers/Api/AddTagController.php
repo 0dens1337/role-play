@@ -16,7 +16,7 @@ class AddTagController extends Controller
         if ($npc->tags()->where('tag_id', $validated['tag_id'])->exists()) {
             return response()->json([
                 'message' => 'This npc is already in this tag'
-            ], 409);
+            ]);
         }
 
         $npc->tags()->syncWithoutDetaching([$validated['tag_id'] => ['created_at' => now()]]);
