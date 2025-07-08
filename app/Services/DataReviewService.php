@@ -67,7 +67,8 @@ class DataReviewService
             });
 
         foreach ($diffs as $diff) {
-            $exists = Diff::forReview($diff)->exists();
+            $exists = Diff::query()
+                ->forReview($diff)->exists();
 
             if (!$exists) {
                 Diff::query()->insert($diff);

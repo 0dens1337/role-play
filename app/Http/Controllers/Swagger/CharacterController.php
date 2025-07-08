@@ -55,10 +55,6 @@ class CharacterController extends Controller
         path: "/api/characters/create",
         summary: "Создание 'пустого' персонажа",
         security: [['BearerAuth' => []]],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(ref: "#/components/schemas/CreateCharacterRequest")
-        ),
         tags: ["Characters"],
         responses: [
             new OA\Response(

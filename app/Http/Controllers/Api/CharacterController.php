@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CreateCharacterRequest;
 use App\Http\Requests\Api\FilterCharacterRequest;
 use App\Http\Requests\Api\StoreCharacterReviewDataRequest;
 use App\Http\Requests\Api\UpdateCharacterReviewDataRequest;
@@ -48,12 +47,17 @@ class CharacterController extends Controller
         return CharactersResource::collection($characters);
     }
 
-    public function create(CreateCharacterRequest $request): CharactersShowResource
+    public function create(): CharactersShowResource
     {
         $character = Character::query()
-            ->create($request->validated());
+            ->create(['user_id' => auth()->id()]);
 
         return CharactersShowResource::make($character);
+    }
+
+    public function show(Character $character)
+    {
+        return CharactersShowResource::make($character->load('characterMeta'));
     }
 
     public function createReviewData(Character $character, StoreCharacterReviewDataRequest $request): JsonResponse

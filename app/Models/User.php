@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RoleUserEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,5 +44,15 @@ class User extends Authenticatable
         $query->when(isset($filters['login']), function ($query) use ($filters) {
             $query->where('login', 'like', '%' . $filters['login'] . '%');
         });
+    }
+
+    public function hasAdminAccess(): bool
+    {
+        return in_array($this->role, [RoleUserEnum::ADMIN->value, RoleUserEnum::SUPER_ADMIN->value]);
+    }
+
+    public function hasSuperAdminAccess(): bool
+    {
+        return $this->role == RoleUserEnum::SUPER_ADMIN->value;
     }
 }

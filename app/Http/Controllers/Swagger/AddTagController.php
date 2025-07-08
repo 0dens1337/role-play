@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 class AddTagController extends Controller
 {
     #[OA\Post(
-        path: "/api/npc/{npc}/tag",
+        path: "/api/add-tags/{npc}/npc",
         description: "Добавляет указанный тег к переданному NPC. Возвращает сообщение об успехе или ошибке, если тег уже назначен.",
         summary: "Добавить тег NPC",
         security: [['BearerAuth' => []]],

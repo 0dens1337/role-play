@@ -23,7 +23,7 @@ class CreateNpcRequest extends FormRequest
             'name' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
-            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|string'
         ];
     }
 }

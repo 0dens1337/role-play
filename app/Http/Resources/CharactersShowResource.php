@@ -10,7 +10,6 @@ class CharactersShowResource extends JsonResource
 {
     #[OA\Schema(
         schema: "CharactersShowResource",
-        type: "object",
         properties: [
             new OA\Property(property: "id", type: "integer", example: 1),
             new OA\Property(property: "name", type: "string", example: "John Doe"),
@@ -27,12 +26,14 @@ class CharactersShowResource extends JsonResource
             new OA\Property(property: "magic_skills", type: "array", items: new OA\Items(type: "string")),
             new OA\Property(property: "non_magic_skills", type: "array", items: new OA\Items(type: "string")),
             new OA\Property(property: "user_id", type: "integer", example: 5),
-        ]
+        ],
+        type: "object"
     )]
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->resource->id,
+            'user_id' => $this->resource->user_id,
             'name' => $this->resource->name,
             'description' => $this->resource->description,
             'occupation' => $this->resource->occupation,
@@ -46,7 +47,8 @@ class CharactersShowResource extends JsonResource
             'artifacts' => $this->resource->artifacts,
             'magic_skills' => $this->resource->magic_skills,
             'non_magic_skills' => $this->resource->non_magic_skills,
-            'user_id' => $this->resource->user_id,
+            'just_created' => $this->resource->just_created,
+            'meta' => CharacterMetaResource::make($this->whenLoaded('characterMeta')),
         ];
     }
 }

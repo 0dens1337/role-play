@@ -22,6 +22,7 @@ class DiffController extends Controller
         $validated = $request->validated();
 
         $query = Diff::query()
+            ->where('status', CharacterReviewEnum::ON_REVIEW->value)
             ->select('character_id')
             ->distinct()
             ->with('character');
