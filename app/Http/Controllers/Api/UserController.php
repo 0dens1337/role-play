@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FilterUserRequest;
 use App\Http\Requests\Api\StoreUserRequest;
 use App\Http\Requests\Api\UpdateUserRequest;
+use App\Http\Resources\ShowUserResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -28,7 +29,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return new UserResource($user);
+        return new ShowUserResource($user);
     }
 
     public function store(StoreUserRequest $request): UserResource

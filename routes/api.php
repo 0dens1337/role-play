@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CharacterController;
 use App\Http\Controllers\Api\CharacterMetaController;
 use App\Http\Controllers\Api\DiffController;
 use App\Http\Controllers\Api\NpcController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RemoveTagController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
@@ -21,6 +22,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/{user}/show', [UserController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('/profile')->name('profile.')->group(function () {
+       Route::get('/me', [ProfileController::class, 'me'])->name('me');
+       Route::post('/upload-avatar', [ProfileController::class, 'uploadAvatar'])->name('upload-avatar');
     });
 
     Route::prefix('npcs')->name('npcs.')->group(function () {

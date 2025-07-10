@@ -23,7 +23,11 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libgd-dev \
     libicu-dev \
+    libmagickwand-dev --no-install-recommends \
     && docker-php-ext-install intl
+
+RUN pecl install imagick \
+    && docker-php-ext-enable imagick
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

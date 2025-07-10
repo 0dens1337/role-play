@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 use OpenApi\Attributes as OA;
 
-#[OA\Tag(name: "Users", description: "Управление пользователями")]
 class UserController extends Controller
 {
     #[OA\Get(

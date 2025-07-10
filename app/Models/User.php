@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\RoleUserEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -54,5 +56,21 @@ class User extends Authenticatable
     public function hasSuperAdminAccess(): bool
     {
         return $this->role == RoleUserEnum::SUPER_ADMIN->value;
+    }
+
+    public function avatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->avatar ? Storage::disk('public')->url($this->avatar) : null,
+        );
+    }
+
+    public function resizedAvatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->avatar
+                ? Storage::disk('public')->url(str_replace('original.', 'resized.', $this->avatar))
+                : null,
+        );
     }
 }
