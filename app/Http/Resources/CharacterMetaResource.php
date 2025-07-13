@@ -26,6 +26,7 @@ class CharacterMetaResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'character_id' => $this->resource->character_id,
+            'short_description' => $this->resource->short_description,
             'likes' => $this->resource->likes,
             'dislikes' => $this->resource->dislikes,
             'text_color' => $this->resource->text_color,

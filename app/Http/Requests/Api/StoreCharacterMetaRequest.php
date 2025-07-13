@@ -11,6 +11,7 @@ class StoreCharacterMetaRequest extends FormRequest
         schema: "StoreCharacterMetaRequest",
         properties: [
             new OA\Property(property: "id", type: "integer", example: 1),
+            new OA\Property(property: "short_description", type: "string", example: "dsadsadsadsa"),
             new OA\Property(property: "character_id", type: "integer", example: 1),
             new OA\Property(property: "likes", type: "string", example: "dsadsadsadsa"),
             new OA\Property(property: "dislikes", type: "string", example: "sadsadsadasdsa"),
@@ -24,6 +25,7 @@ class StoreCharacterMetaRequest extends FormRequest
     {
         return [
             'character_id' => 'required|exists:characters,id',
+            'short_description' => 'required|string',
             'likes' => 'nullable|string',
             'dislikes' => 'nullable|string',
             'text_color' => 'nullable|string',

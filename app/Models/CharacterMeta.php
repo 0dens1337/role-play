@@ -15,6 +15,7 @@ class CharacterMeta extends Model
         'text_color',
         'background_color',
         'accent_color',
+        'short_description',
     ];
 
     public function character(): BelongsTo

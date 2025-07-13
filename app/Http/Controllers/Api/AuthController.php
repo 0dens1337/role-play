@@ -18,11 +18,22 @@ class AuthController extends Controller
         $user = User::query()->create($request->validated());
         $token = $user->createToken('authToken')->accessToken;
 
+        $cookie = cookie(
+            'auth_token', // имя куки
+            $token,      // значение
+            60 * 24 * 7,  // срок действия в минутах (7 дней)
+            null,         // путь
+            null,         // домен
+            true,         // secure (только HTTPS)
+            true,         // httpOnly
+            false,        // sameSite
+            'lax'         // sameSite значение
+        );
+
         return response()->json([
             'email' => $user->email,
             'login' => $user->login,
-            'token' => $token
-        ]);
+        ])->withCookie($cookie);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -41,18 +52,31 @@ class AuthController extends Controller
 
         $token = $user->createToken('authToken')->accessToken;
 
+        $cookie = cookie(
+            'auth_token',
+            $token,
+            60 * 24 * 7,
+            null,
+            null,
+            true,
+            true,
+            false,
+            'lax'
+        );
+
         return response()->json([
             'email' => $user->email,
             'login' => $user->login,
-            'token' => $token
-        ]);
+        ])->withCookie($cookie);
     }
 
     public function logout(): JsonResponse
     {
         auth()->user()->token()->delete();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        $cookie = cookie()->forget('auth_token');
+
+        return response()->json(['message' => 'Successfully logged out'])->withCookie($cookie);
     }
 
 }
