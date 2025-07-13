@@ -9,6 +9,7 @@ use App\Http\Resources\RegisterUserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -16,67 +17,57 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = User::query()->create($request->validated());
-        $token = $user->createToken('authToken')->accessToken;
 
-        $cookie = cookie(
-            'auth_token', // имя куки
-            $token,      // значение
-            60 * 24 * 7,  // срок действия в минутах (7 дней)
-            null,         // путь
-            null,         // домен
-            true,         // secure (только HTTPS)
-            true,         // httpOnly
-            false,        // sameSite
-            'lax'         // sameSite значение
-        );
+        Auth::user($user);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'email' => $user->email,
-            'login' => $user->login,
-        ])->withCookie($cookie);
+            'user' => $user,
+            'token' => $token
+        ])->cookie(
+            'auth_token',
+            $token,
+            config('sanctum.expiration', 60 * 24 * 7),
+            null,
+            null,
+            false,
+            true // HttpOnly
+        );
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
+        $user = User::query()->where('email', $request->email)->first();
 
-        $user = User::query()
-            ->where('email', $credentials['email'])
-            ->first();
-
-        if (! Hash::check($credentials['password'], $user->password)) {
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'These credentials do not match our records.',
             ], 401);
         }
 
-        $token = $user->createToken('authToken')->accessToken;
+        Auth::login($user);
 
-        $cookie = cookie(
-            'auth_token',
-            $token,
-            60 * 24 * 7,
-            null,
-            null,
-            true,
-            true,
-            false,
-            'lax'
-        );
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'email' => $user->email,
-            'login' => $user->login,
-        ])->withCookie($cookie);
+            'message' => 'Logged in successfully.',
+        ])->cookie(
+            'auth_token',
+            $token,
+            config('sanctum.expiration', 60 * 24 * 7),
+            null,
+            null,
+            false,
+            true // HttpOnly
+        );
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request)
     {
-        auth()->user()->token()->delete();
+        $request->user()->currentAccessToken()->delete();
 
-        $cookie = cookie()->forget('auth_token');
-
-        return response()->json(['message' => 'Successfully logged out'])->withCookie($cookie);
+        return response()->json(['message' => 'Logged out'])
+            ->withoutCookie('auth_token');
     }
-
 }

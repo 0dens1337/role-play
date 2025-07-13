@@ -12,10 +12,10 @@ use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware('checkToken')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
-        Route::post('register', [AuthController::class, 'register'])->name('register')->withoutMiddleware('auth');
-        Route::post('login', [AuthController::class, 'login'])->name('login')->withoutMiddleware('auth');
+        Route::post('register', [AuthController::class, 'register'])->name('register')->withoutMiddleware('checkToken');
+        Route::post('login', [AuthController::class, 'login'])->name('login')->withoutMiddleware('checkToken');
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     });
 
