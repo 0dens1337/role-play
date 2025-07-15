@@ -22,8 +22,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
-            'token' => $token
+            'message' => 'Successfully registered!',
         ])->cookie(
             'auth_token',
             $token,
@@ -42,7 +41,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'message' => 'These credentials do not match our records.',
+                'message' => 'Email или пароль не совпадают с нашими данными.',
             ], 401);
         }
 
@@ -51,7 +50,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Logged in successfully.',
+            'message' => 'Успешная авторизация.',
         ])->cookie(
             'auth_token',
             $token,
@@ -63,11 +62,11 @@ class AuthController extends Controller
         );
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->delete();
 
-        return response()->json(['message' => 'Logged out'])
+        return response()->json(['message' => 'Успешный лог аут'])
             ->withoutCookie('auth_token');
     }
 }
