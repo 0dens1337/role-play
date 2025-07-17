@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->role == RoleUserEnum::SUPER_ADMIN->value;
     }
 
+    public function hasCharacter()
+    {
+        return $this->characters()->exists();
+    }
+
     public function avatarUrl(): Attribute
     {
         return Attribute::make(

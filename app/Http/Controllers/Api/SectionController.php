@@ -18,14 +18,14 @@ class SectionController extends Controller
         return SectionResource::collection(Section::all());
     }
 
-    public function create(CreateSectionRequest $request): AnonymousResourceCollection
+    public function create(CreateSectionRequest $request): SectionResource
     {
         $section = Section::query()->create($request->validated());
 
         return SectionResource::make($section);
     }
 
-    public function update(UpdateSectionRequest $request, Section $section): AnonymousResourceCollection
+    public function update(UpdateSectionRequest $request, Section $section): SectionResource
     {
         $section->update($request->validated());
 

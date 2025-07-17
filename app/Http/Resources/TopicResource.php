@@ -16,9 +16,10 @@ class TopicResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'name' => $this->resource->name,
+            'title' => $this->resource->title,
             'description' => $this->resource->description,
-            'visibility' => $this->resource->visibility,
+            'for_everyone' => $this->resource->for_everyone,
+            'has_character' => $this->resource->has_character,
             'section_id' => $this->resource->section_id,
         ];
     }

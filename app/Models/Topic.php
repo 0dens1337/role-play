@@ -10,8 +10,10 @@ class Topic extends Model
     protected $fillable = [
         'title',
         'description',
-        'visibility',
         'section_id',
+        'for_everyone',
+        'has_character',
+        'user_id'
     ];
 
     public function user(): BelongsTo
@@ -24,8 +26,8 @@ class Topic extends Model
         return $this->belongsTo(Section::class);
     }
 
-//    public function comments(): HasMany
-//    {
-//
-//    }
+    public function scopeVisibleTo($query)
+    {
+        return $query->where('for_everyone', true);
+    }
 }
