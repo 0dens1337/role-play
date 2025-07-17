@@ -4,42 +4,66 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTopicRequest;
+use App\Http\Requests\Api\TopicFilterRequest;
 use App\Http\Requests\Api\UpdateTopicRequest;
 use App\Http\Resources\TopicIndexResource;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class TopicController extends Controller
 {
-    public function indexForEveryone(Request $request): AnonymousResourceCollection
+    public function index(TopicFilterRequest $request)
     {
-        $topics = Topic::visibleTo()
-            ->with('section')
-            ->paginate(10);
+        Gate::authorize('index', Topic::class);
+
+        $validated = $request->validated();
+
+        $query = Topic::query();
+
+        $topics = isset($validated['without_paginate'])
+            ? $query->get()
+            : $query->paginate($validated['per_page'] ?? 10);
 
         return TopicIndexResource::collection($topics);
     }
 
-    public function indexForAuthenticatedUser(): AnonymousResourceCollection
+    public function indexForEveryone(TopicFilterRequest $request): AnonymousResourceCollection
     {
+        $validated = $request->validated();
+
+        $query = Topic::visibleToEveryone();
+
+        $topics = isset($validated['without_paginate'])
+            ? $query->get()
+            : $query->paginate($validated['per_page'] ?? 10);
+
+        return TopicIndexResource::collection($topics);
+    }
+
+    public function indexForAuthenticatedUser(TopicFilterRequest $request): AnonymousResourceCollection
+    {
+        $validated = $request->validated();
+
         $query = Topic::query();
 
         if (!auth()->user()->hasCharacter()) {
-            $query->where('has_character', false);
+            $query->visibleToAuthOnly();
         }
 
-        $topics = $query->paginate(10);
+        $topics = isset($validated['without_paginate'])
+            ? $query->get()
+            : $query->paginate($validated['per_page'] ?? 10);
 
         return TopicIndexResource::collection($topics);
     }
 
     public function create(CreateTopicRequest $request): TopicResource
     {
+        Gate::authorize('create', Topic::class);
+
         $topic = Topic::query()->create($request->validated());
 
         return TopicResource::make($topic);
@@ -54,6 +78,8 @@ class TopicController extends Controller
 
     public function update(UpdateTopicRequest $request, Topic $topic): TopicResource
     {
+        Gate::authorize('update', $topic);
+
         $topic->update($request->validated());
 
         return TopicResource::make($topic);
@@ -61,6 +87,8 @@ class TopicController extends Controller
 
     public function delete(Topic $topic): JsonResponse
     {
+        Gate::authorize('delete', $topic);
+
         $topic->delete();
 
         return response()->json([

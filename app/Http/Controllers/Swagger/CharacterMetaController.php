@@ -10,7 +10,7 @@ class CharacterMetaController extends Controller
     #[OA\Post(
         path: "/api/characters/add-meta",
         summary: "Создание 'пустого' персонажа",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/StoreCharacterMetaRequest")

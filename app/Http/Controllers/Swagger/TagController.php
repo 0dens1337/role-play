@@ -10,7 +10,7 @@ class TagController extends Controller
     #[OA\Get(
         path: "/api/tags/",
         summary: "Список тегов",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Tags"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
@@ -32,7 +32,7 @@ class TagController extends Controller
     #[OA\Post(
         path: "/api/tags/create",
         summary: "Создать тег",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/StoreTagRequest")
@@ -52,7 +52,7 @@ class TagController extends Controller
     #[OA\Put(
         path: "/api/tags/{tag}/update",
         summary: "Обновить тег",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/UpdateTagRequest")
@@ -81,7 +81,7 @@ class TagController extends Controller
     #[OA\Delete(
         path: "/api/tags/{tag}/delete",
         summary: "Удалить тег",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Tags"],
         parameters: [
             new OA\Parameter(

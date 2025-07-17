@@ -8,11 +8,12 @@ use Illuminate\Auth\Access\Response;
 
 class TopicPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    public function index(User $user): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -33,6 +34,10 @@ class TopicPolicy
      */
     public function create(User $user): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -41,6 +46,10 @@ class TopicPolicy
      */
     public function update(User $user, Topic $topic): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -49,6 +58,10 @@ class TopicPolicy
      */
     public function delete(User $user, Topic $topic): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 

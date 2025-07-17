@@ -9,11 +9,11 @@ use OpenApi\Attributes as OA;
     title: "Role-play API"
 )]
 #[OA\SecurityScheme(
-    securityScheme: 'BearerAuth',
-    type: 'http',
-    description: 'Bearer authentication using JWT token',
-    bearerFormat: 'JWT',
-    scheme: 'bearer'
+    securityScheme: 'cookieAuth',
+    type: 'apiKey',
+    description: 'Authentication using JWT token stored in cookie',
+    name: 'auth_token',
+    in: 'cookie'
 )]
 abstract class Controller
 {

@@ -11,7 +11,7 @@ class AddTagController extends Controller
         path: "/api/add-tags/{npc}/npc",
         description: "Добавляет указанный тег к переданному NPC. Возвращает сообщение об успехе или ошибке, если тег уже назначен.",
         summary: "Добавить тег NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/AddTagForNpcRequest")

@@ -10,7 +10,7 @@ class UserController extends Controller
     #[OA\Get(
         path: "/api/users/",
         summary: "Список пользователей",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Users"],
         parameters: [
             new OA\QueryParameter(name: "login", description: "Фильтр по login", required: false, schema: new OA\Schema(type: "string")),
@@ -26,7 +26,7 @@ class UserController extends Controller
     #[OA\Get(
         path: "/api/users/{id}/show",
         summary: "Получить пользователя",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Users"],
         parameters: [
             new OA\PathParameter(name: "id", description: "ID пользователя", required: true, schema: new OA\Schema(type: "integer"))
@@ -41,7 +41,7 @@ class UserController extends Controller
     #[OA\Post(
         path: "/api/users/store",
         summary: "Создать пользователя",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/StoreUserRequest')
@@ -57,7 +57,7 @@ class UserController extends Controller
     #[OA\Put(
         path: "/api/users/{id}/update",
         summary: "Обновить пользователя",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/UpdateUserRequest')
@@ -76,7 +76,7 @@ class UserController extends Controller
     #[OA\Delete(
         path: "/api/users/{id}/delete",
         summary: "Удалить пользователя",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Users"],
         parameters: [
             new OA\PathParameter(name: "id", description: "ID пользователя", required: true, schema: new OA\Schema(type: "integer"))

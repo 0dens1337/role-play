@@ -10,7 +10,7 @@ class CharacterController extends Controller
     #[OA\Get(
         path: "/api/characters/",
         summary: "Список персов",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Characters"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
@@ -32,7 +32,7 @@ class CharacterController extends Controller
     #[OA\Get(
         path: "/api/characters/my-characters",
         summary: "Список персов",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Characters"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
@@ -54,7 +54,7 @@ class CharacterController extends Controller
     #[OA\Post(
         path: "/api/characters/create",
         summary: "Создание 'пустого' персонажа",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Characters"],
         responses: [
             new OA\Response(
@@ -70,7 +70,7 @@ class CharacterController extends Controller
     #[OA\Post(
         path: "/api/characters/{character}/verification-data",
         summary: "Создание данных для проверки у персонажа",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/StoreCharacterReviewDataRequest")
@@ -92,7 +92,7 @@ class CharacterController extends Controller
     #[OA\Post(
         path: "/api/characters/{character}/update-verification-data",
         summary: "Обновление данных для проверки у персонажа (уже созданного до этого)",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/StoreCharacterReviewDataRequest")

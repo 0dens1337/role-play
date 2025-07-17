@@ -6,14 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
-class TopicIndexResource extends JsonResource
+class SectionIndexResource extends JsonResource
 {
     #[OA\Schema(
-        schema: "TopicIndexResource",
+        schema: "SectionIndexResource",
         properties: [
             new OA\Property(property: "id", type: "integer", example: 1),
-            new OA\Property(property: "title", type: "string", example: "Test"),
-            new OA\Property(property: "section_id", type: "integer", example: 1)
+            new OA\Property(property: "name", type: "string", example: "Test"),
         ],
         type: "object"
     )]
@@ -21,8 +20,7 @@ class TopicIndexResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'title' => $this->resource->title,
-            'section_id' => $this->resource->section_id,
+            'name' => $this->resource->name,
         ];
     }
 }

@@ -10,7 +10,7 @@ class DiffController extends Controller
     #[OA\Get(
         path: '/api/admin/diffs/',
         summary: 'Get list of characters with diffs',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ['Diffs'],
         parameters: [
             new OA\QueryParameter(name: 'without_paginate', description: 'Without pagination', required: false, schema: new OA\Schema(type: 'boolean')),
@@ -29,7 +29,7 @@ class DiffController extends Controller
     #[OA\Get(
         path: '/api/admin/diffs/{character}/show',
         summary: 'Get diffs for a character',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ['Diffs'],
         parameters: [
             new OA\PathParameter(name: 'character', description: 'Character ID', required: true, schema: new OA\Schema(type: 'integer')),
@@ -43,7 +43,7 @@ class DiffController extends Controller
     #[OA\Post(
         path: '/api/admin/diffs/{character}/accept-all',
         summary: 'Accept all diffs for a character',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ['Diffs'],
         parameters: [
             new OA\PathParameter(name: 'character', description: 'Character ID', required: true, schema: new OA\Schema(type: 'integer')),
@@ -57,7 +57,7 @@ class DiffController extends Controller
     #[OA\Post(
         path: '/api/admin/diffs/{character}/accept-selectively',
         summary: 'Accept selected diffs for a character',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -80,7 +80,7 @@ class DiffController extends Controller
     #[OA\Post(
         path: '/api/admin/diffs/{character}/reject-all',
         summary: 'Reject all diffs for a character',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ['Diffs'],
         parameters: [
             new OA\PathParameter(name: 'character', description: 'Character ID', required: true, schema: new OA\Schema(type: 'integer')),
@@ -94,7 +94,7 @@ class DiffController extends Controller
     #[OA\Post(
         path: '/api/admin/diffs/{character}/reject-selectively',
         summary: 'Reject selected diffs for a character',
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(

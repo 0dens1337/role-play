@@ -10,7 +10,7 @@ class ProfileController extends Controller
     #[OA\Get(
         path: "/api/profile/me",
         summary: "Список пользователей",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Profile"],
         responses: [
             new OA\Response(response: 200, description: "Профиль Auth пользователя", content: new OA\JsonContent(ref: '#/components/schemas/ShowUserResource'))
@@ -22,7 +22,7 @@ class ProfileController extends Controller
         path: "/api/profile/upload-avatar",
         description: "Позволяет загрузить аватар пользователя. Поддерживаются форматы: JPEG, PNG, WEBP.",
         summary: "Загрузка аватара пользователя",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             description: "Файл аватара",
             required: true,

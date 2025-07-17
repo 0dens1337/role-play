@@ -26,8 +26,13 @@ class Topic extends Model
         return $this->belongsTo(Section::class);
     }
 
-    public function scopeVisibleTo($query)
+    public function scopeVisibleToEveryone($query)
     {
         return $query->where('for_everyone', true);
+    }
+
+    public function scopeVisibleToAuthOnly($query)
+    {
+        return $query->where('has_character', false);
     }
 }

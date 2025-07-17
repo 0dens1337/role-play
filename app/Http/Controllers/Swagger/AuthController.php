@@ -62,7 +62,7 @@ class AuthController extends Controller
     #[OA\Post(
         path: "/api/auth/logout",
         summary: "Выход из системы",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["Auth"],
         responses: [
             new OA\Response(

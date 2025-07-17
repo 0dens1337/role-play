@@ -14,9 +14,11 @@ use App\Http\Controllers\Api\TopicController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('topics')->name('topics.')->group(function () {
-    Route::get('/', [TopicController::class, 'indexForEveryone'])->name('indexForEveryone');
-    Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
+Route::prefix('guest')->name('guest.')->group(function () {
+    Route::prefix('topics')->name('topics.')->group(function () {
+        Route::get('/', [TopicController::class, 'indexForEveryone'])->name('indexForEveryone');
+        Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
+    });
 });
 
 Route::middleware('checkToken')->group(function () {
@@ -56,12 +58,13 @@ Route::middleware('checkToken')->group(function () {
     });
 
     Route::prefix('topics')->name('topics.')->group(function () {
-        Route::get('/auth/', [TopicController::class, 'indexForAuthenticatedUser'])->name('indexForAuthenticatedUser');
-        Route::get('/{topic}/auth/show', [TopicController::class, 'show'])->name('show');
+        Route::get('/', [TopicController::class, 'indexForAuthenticatedUser'])->name('indexForAuthenticatedUser');
+        Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
     });
 
     Route::prefix('sections')->name('sections.')->group(function () {
         Route::get('/', [SectionController::class, 'index'])->name('index');
+        Route::get('{section}/show', [SectionController::class, 'show'])->name('show');
     });
 
     Route::middleware('admin')->group(function () {
@@ -109,12 +112,14 @@ Route::middleware('checkToken')->group(function () {
 
             Route::prefix('sections')->name('sections.')->group(function () {
                 Route::get('/', [SectionController::class, 'index'])->name('index');
+                Route::get('{section}/show', [SectionController::class, 'show'])->name('show');
                 Route::post('/create', [SectionController::class, 'create'])->name('create');
                 Route::patch('/{section}/update', [SectionController::class, 'update'])->name('update');
                 Route::delete('{section}/delete', [SectionController::class, 'delete'])->name('destroy');
             });
 
             Route::prefix('topics')->name('topics.')->group(function () {
+                Route::get('/', [TopicController::class, 'index'])->name('index');
                 Route::post('/create', [TopicController::class, 'create'])->name('create');
                 Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
                 Route::patch('{topic}/update', [TopicController::class, 'update'])->name('update');

@@ -10,7 +10,7 @@ class NpcController extends Controller
     #[OA\Get(
         path: "/api/npcs/",
         summary: "Список NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["NPCs"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
@@ -32,7 +32,7 @@ class NpcController extends Controller
     #[OA\Get(
         path: "/api/npcs/{npc}/show",
         summary: "Получить одного NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["NPCs"],
         parameters: [
             new OA\Parameter(
@@ -56,7 +56,7 @@ class NpcController extends Controller
     #[OA\Post(
         path: "/api/npcs/create",
         summary: "Создать нового NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/CreateNpcRequest")
@@ -76,7 +76,7 @@ class NpcController extends Controller
     #[OA\Put(
         path: "/api/npcs/{npc}/update",
         summary: "Обновить NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/UpdateNpcRequest")
@@ -100,7 +100,7 @@ class NpcController extends Controller
     #[OA\Delete(
         path: "/api/npcs/{npc}/delete",
         summary: "Удалить NPC",
-        security: [['BearerAuth' => []]],
+        security: [['cookieAuth' => []]],
         tags: ["NPCs"],
         parameters: [
             new OA\Parameter(name: "npc", in: "path", required: true, schema: new OA\Schema(type: "integer"))
