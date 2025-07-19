@@ -38,3 +38,5 @@ User::create(['login' => 'admin_1', 'email' => 'admin@mail.ru', 'role' => 3, 'pa
 ```bash
 docker exec -it php php artisan passport:client --personal
 ```
+
+Дополнительно: Если у вас Винда то нужно будет раскоментировать разрешение модуля gd в php.ini
