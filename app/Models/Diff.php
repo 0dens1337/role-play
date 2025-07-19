@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\CharacterReviewEnum;
 use App\Observers\DiffObserver;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -30,5 +32,12 @@ class Diff extends Model
             ->where('column', $diff['column'])
             ->where('new_value', $diff['new_value'])
             ->where('status', $diff['status']);
+    }
+
+    public function statusName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => CharacterReviewEnum::tryFrom($this->status)->name() ?? 'Unknown',
+        );
     }
 }

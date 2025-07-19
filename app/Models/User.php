@@ -83,4 +83,11 @@ class User extends Authenticatable
                 : null,
         );
     }
+
+    public function roleName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => RoleUserEnum::tryFrom($this->role)->name() ?? 'Unknown',
+        );
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TopicTypeEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,7 +15,8 @@ class Topic extends Model
         'section_id',
         'for_everyone',
         'has_character',
-        'user_id'
+        'user_id',
+        'type',
     ];
 
     public function user(): BelongsTo
@@ -34,5 +37,12 @@ class Topic extends Model
     public function scopeVisibleToAuthOnly($query)
     {
         return $query->where('has_character', false);
+    }
+
+    public function typeName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => TopicTypeEnum::tryFrom($this->type)->name() ?? 'Unknown',
+        );
     }
 }

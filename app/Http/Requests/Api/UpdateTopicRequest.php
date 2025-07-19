@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\TopicTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
 class UpdateTopicRequest extends FormRequest
@@ -15,6 +17,7 @@ class UpdateTopicRequest extends FormRequest
             new OA\Property(property: "section_id", type: "integer", example: 1, nullable: true),
             new OA\Property(property: "for_everyone", type: "boolean", example: true),
             new OA\Property(property: "has_character", type: "boolean", example: true),
+            new OA\Property(property: "type", type: "integer", example: 1, nullable: true),
         ],
         type: "object"
     )]
@@ -26,6 +29,7 @@ class UpdateTopicRequest extends FormRequest
             'section_id' => 'nullable|integer|exists:sections,id',
             'for_everyone' => 'nullable|boolean',
             'has_character' => 'nullable|boolean',
+            'type' => ['nullable', 'integer', Rule::enum(TopicTypeEnum::class)],
         ];
     }
 

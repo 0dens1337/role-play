@@ -17,6 +17,7 @@ class TopicResource extends JsonResource
             new OA\Property(property: "for_everyone", type: "boolean", example: false),
             new OA\Property(property: "has_character", type: "boolean", example: true),
             new OA\Property(property: "section_id", type: "integer", example: 1),
+            new OA\Property(property: "type", type: "integer", example: 1),
         ],
         type: "object"
     )]
@@ -29,6 +30,8 @@ class TopicResource extends JsonResource
             'for_everyone' => $this->resource->for_everyone,
             'has_character' => $this->resource->has_character,
             'section_id' => $this->resource->section_id,
+            'type' => $this->resource->type,
+            'type_name' => $this->resource->typeName,
         ];
     }
 }

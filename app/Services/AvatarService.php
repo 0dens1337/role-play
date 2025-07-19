@@ -23,7 +23,7 @@ class AvatarService
         Storage::disk('public')->put($originalPath, file_get_contents($file));
 
         $absolutePath = Storage::disk('public')->path($originalPath);
-        $resizedImage = ImageManager::imagick()->read($absolutePath);
+        $resizedImage = ImageManager::imagick()->read($absolutePath); // для винды поставить gd() вместо imagick()
         $resizedImage->resize(self::WIDTH, self::HEIGHT);
 
         $encoded = match (strtolower($extension)) {

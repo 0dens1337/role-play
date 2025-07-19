@@ -18,6 +18,7 @@ class ShowUserResource extends JsonResource
             new OA\Property(property: "email", type: "string", example: "johndoe@test.com"),
             new OA\Property(property: "avatar_original", type: "string", example: "https://example.com/avatar.jpg", nullable: true),
             new OA\Property(property: "role", type: "integer", example: 1),
+            new OA\Property(property: "role_name", type: "string", example: 'User'),
         ],
         type: "object"
     )]
@@ -29,6 +30,7 @@ class ShowUserResource extends JsonResource
             'email' => $this->resource->email,
             'avatar_original' => $this->resource->avatarUrl,
             'role' => $this->resource->role,
+            'role_name' => $this->resource->roleName,
         ];
     }
 }

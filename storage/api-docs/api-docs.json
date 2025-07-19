@@ -6,14 +6,14 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/npc/{npc}/tag": {
+        "/api/add-tags/{npc}/npc": {
             "post": {
                 "tags": [
                     "Add Tags"
                 ],
                 "summary": "Добавить тег NPC",
                 "description": "Добавляет указанный тег к переданному NPC. Возвращает сообщение об успехе или ошибке, если тег уже назначен.",
-                "operationId": "ab786a2126f1f6a589dc9f37b29ae91d",
+                "operationId": "24af5ac67236cdb84cd17ba6dabb462e",
                 "parameters": [
                     {
                         "name": "npc",
@@ -75,7 +75,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -203,7 +203,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -251,7 +251,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -299,7 +299,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -311,16 +311,6 @@
                 ],
                 "summary": "Создание 'пустого' персонажа",
                 "operationId": "1066166d0d62dfa582067d12aed0fb92",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateCharacterRequest"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "Перс успешно создан",
@@ -338,7 +328,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -380,7 +370,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -422,7 +412,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -461,7 +451,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -509,7 +499,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -544,7 +534,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -579,7 +569,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -635,7 +625,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -670,7 +660,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -726,7 +716,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -774,7 +764,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -813,7 +803,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -852,7 +842,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -904,7 +894,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -949,7 +939,277 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile/me": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Список пользователей",
+                "operationId": "0be782781b788bfdfb716d5e3d58fde2",
+                "responses": {
+                    "200": {
+                        "description": "Профиль Auth пользователя",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShowUserResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile/upload-avatar": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Загрузка аватара пользователя",
+                "description": "Позволяет загрузить аватар пользователя. Поддерживаются форматы: JPEG, PNG, WEBP.",
+                "operationId": "42afd539ccc5fe9225f9789823508c2a",
+                "requestBody": {
+                    "description": "Файл аватара",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "avatar": {
+                                        "description": "Файл изображения",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Аватар успешно загружен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Avatar uploaded successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "avatar": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The avatar must be an image."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка сервера при обработке изображения"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sections/": {
+            "get": {
+                "tags": [
+                    "Sections"
+                ],
+                "summary": "Список Разделов",
+                "operationId": "34026f0fe0f3c0a263ff6fa53325efd2",
+                "responses": {
+                    "200": {
+                        "description": "Список NPC",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SectionIndexResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sections/{section}/show": {
+            "get": {
+                "tags": [
+                    "Sections"
+                ],
+                "summary": "Получить один Раздел",
+                "operationId": "09fbe277baaca7770567f8589bb0c30d",
+                "parameters": [
+                    {
+                        "name": "section",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация о NPC",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SectionResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NPC не найден"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sections/{section}/update": {
+            "put": {
+                "tags": [
+                    "Sections"
+                ],
+                "summary": "Обновить Раздел",
+                "operationId": "b062d2d28927c5dc8f439bc8ac43d199",
+                "parameters": [
+                    {
+                        "name": "section",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSectionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "NPC успешно обновлён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SectionResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NPC не найден"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Sections"
+                ],
+                "summary": "Удалить Раздел",
+                "operationId": "c199970b3ca4a0db5132d0ce6e4d61de",
+                "parameters": [
+                    {
+                        "name": "section",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "NPC удалён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Npc deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Раздел не найден"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -997,7 +1257,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1036,7 +1296,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1088,7 +1348,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1133,7 +1393,287 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/topics/": {
+            "get": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Список Обсуждения для Админов",
+                "operationId": "48cce48aea0eef9c52e31134f58ae8be",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список Topics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TopicIndexResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/guest/topics/": {
+            "get": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Список Обсуждения для не авторизованных пользователей",
+                "operationId": "24b812c0e52d631c9a69ba5eb309c813",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список Topics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TopicIndexResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/topics/": {
+            "get": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Список Обсуждения для авторизованных пользователей",
+                "operationId": "af7337e62084bba0240bc00d761aa24e",
+                "parameters": [
+                    {
+                        "name": "without_paginate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список Topics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TopicIndexResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/topics/create": {
+            "post": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Создать новый Topic",
+                "operationId": "e45241009132df0fb50ecf0625098c42",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTopicRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Topic успешно создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/topics/{topic}/update": {
+            "put": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Обновить Topic",
+                "operationId": "e611b6322c99a78552c2343cfac975ba",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTopicRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Topic успешно обновлён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Topic не найден"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/topics/{topics}/delete": {
+            "delete": {
+                "tags": [
+                    "Topics"
+                ],
+                "summary": "Удалить Topic",
+                "operationId": "53ef61c40222e930a7fa59b6c5c960db",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Topic удалён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Topic deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Topic не найден"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1190,7 +1730,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1230,7 +1770,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1269,7 +1809,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1319,7 +1859,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1352,7 +1892,7 @@
                 },
                 "security": [
                     {
-                        "BearerAuth": []
+                        "cookieAuth": []
                     }
                 ]
             }
@@ -1369,15 +1909,6 @@
                         "description": "ID тега, который нужно добавить NPC",
                         "type": "integer",
                         "example": 12
-                    }
-                },
-                "type": "object"
-            },
-            "CreateCharacterRequest": {
-                "properties": {
-                    "user_id": {
-                        "type": "integer",
-                        "example": 1
                     }
                 },
                 "type": "object"
@@ -1401,6 +1932,44 @@
                         "type": "string",
                         "format": "binary",
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "CreateTopicRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "John the Blacksmith",
+                        "nullable": false
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Master Artisan",
+                        "nullable": false
+                    },
+                    "section_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": false
+                    },
+                    "for_everyone": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "has_character": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": false
+                    },
+                    "type": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -1449,6 +2018,10 @@
                     "id": {
                         "type": "integer",
                         "example": 1
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "dsadsadsadsa"
                     },
                     "character_id": {
                         "type": "integer",
@@ -1671,6 +2244,19 @@
                 },
                 "type": "object"
             },
+            "UpdateSectionRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "TEST"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "TEST TEST"
+                    }
+                },
+                "type": "object"
+            },
             "UpdateTagRequest": {
                 "required": [
                     "name"
@@ -1679,6 +2265,39 @@
                     "name": {
                         "type": "string",
                         "example": "npc"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTopicRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "John the Blacksmith",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Master Artisan",
+                        "nullable": true
+                    },
+                    "section_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "for_everyone": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "has_character": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "type": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -1884,6 +2503,74 @@
                 },
                 "type": "object"
             },
+            "SectionIndexResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Test"
+                    }
+                },
+                "type": "object"
+            },
+            "SectionResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "Test Test Test"
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TopicIndexResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ShowUserResource": {
+                "title": "ShowUser",
+                "description": "Пользователь",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "login": {
+                        "type": "string",
+                        "example": "johndoe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "johndoe@test.com"
+                    },
+                    "avatar_original": {
+                        "type": "string",
+                        "example": "https://example.com/avatar.jpg",
+                        "nullable": true
+                    },
+                    "role": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "role_name": {
+                        "type": "string",
+                        "example": "User"
+                    }
+                },
+                "type": "object"
+            },
             "TagResource": {
                 "title": "Tag",
                 "properties": {
@@ -1894,6 +2581,60 @@
                     "name": {
                         "type": "string",
                         "example": "quest"
+                    }
+                },
+                "type": "object"
+            },
+            "TopicIndexResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "section_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "TopicResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "for_everyone": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "has_character": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "section_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "integer",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -1910,38 +2651,25 @@
                         "type": "string",
                         "example": "johndoe"
                     },
-                    "email": {
-                        "type": "string",
-                        "format": "email",
-                        "example": "john@example.com"
-                    },
-                    "avatar": {
+                    "avatar_resize": {
                         "type": "string",
                         "example": "https://example.com/avatar.jpg",
                         "nullable": true
-                    },
-                    "role": {
-                        "type": "string",
-                        "example": "admin"
                     }
                 },
                 "type": "object"
             }
         },
         "securitySchemes": {
-            "BearerAuth": {
-                "type": "http",
-                "description": "Bearer authentication using JWT token",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
+            "cookieAuth": {
+                "type": "apiKey",
+                "description": "Authentication using JWT token stored in cookie",
+                "name": "auth_token",
+                "in": "cookie"
             }
         }
     },
     "tags": [
-        {
-            "name": "Users",
-            "description": "Управление пользователями"
-        },
         {
             "name": "Add Tags",
             "description": "Add Tags"
@@ -1967,8 +2695,24 @@
             "description": "NPCs"
         },
         {
+            "name": "Profile",
+            "description": "Profile"
+        },
+        {
+            "name": "Sections",
+            "description": "Sections"
+        },
+        {
             "name": "Tags",
             "description": "Tags"
+        },
+        {
+            "name": "Topics",
+            "description": "Topics"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }
