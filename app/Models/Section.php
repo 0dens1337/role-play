@@ -12,7 +12,7 @@ class Section extends Model
 
     protected $fillable = [
         'name',
-        'short_description',
+        'position',
     ];
 
     public function topics(): HasMany

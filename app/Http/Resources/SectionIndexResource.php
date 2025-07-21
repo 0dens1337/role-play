@@ -21,6 +21,7 @@ class SectionIndexResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
+            'position' => $this->resource->position,
         ];
     }
 }
