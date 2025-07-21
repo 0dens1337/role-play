@@ -16,7 +16,6 @@ class Topic extends Model
         'for_everyone',
         'has_character',
         'user_id',
-        'type',
     ];
 
     public function user(): BelongsTo
@@ -39,10 +38,20 @@ class Topic extends Model
         return $query->where('has_character', false);
     }
 
-    public function typeName(): Attribute
+    public function visibilityLevel(): Attribute
     {
         return Attribute::make(
-            get: fn () => TopicTypeEnum::tryFrom($this->type)->name() ?? 'Unknown',
+            get: function () {
+                if ($this->for_everyone) {
+                    return 'For everyone';
+                }
+
+                if ($this->has_character) {
+                    return 'Only with character(s)';
+                }
+
+                return 'Only for Auth users';
+            }
         );
     }
 }

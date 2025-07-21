@@ -64,7 +64,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        $user = auth()->user();
+        $user->tokens()->where('id', $user->currentAccessToken())->delete();
 
         return response()->json(['message' => 'Успешный лог аут'])
             ->withoutCookie('auth_token');

@@ -13,7 +13,6 @@ class SectionResource extends JsonResource
         properties: [
             new OA\Property(property: "id", type: "integer", example: 1),
             new OA\Property(property: "name", type: "string", example: "Test"),
-            new OA\Property(property: "short_description", type: "string", example: "Test Test Test"),
             new OA\Property(property: "topics", type: "array",
                 items: new OA\Items(ref: "#/components/schemas/TopicIndexResource")
             )
@@ -25,7 +24,6 @@ class SectionResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'short_description' => $this->resource->short_description,
             'topics' => TopicIndexResource::collection($this->whenLoaded('topics')),
         ];
     }

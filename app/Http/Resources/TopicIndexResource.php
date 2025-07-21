@@ -14,7 +14,7 @@ class TopicIndexResource extends JsonResource
             new OA\Property(property: "id", type: "integer", example: 1),
             new OA\Property(property: "title", type: "string", example: "Test"),
             new OA\Property(property: "section_id", type: "integer", example: 1),
-            new OA\Property(property: "type", type: "integer", example: 1),
+            new OA\Property(property: "visibility", type: "string", example: "For Everyone"),
         ],
         type: "object"
     )]
@@ -24,8 +24,7 @@ class TopicIndexResource extends JsonResource
             'id' => $this->resource->id,
             'title' => $this->resource->title,
             'section_id' => $this->resource->section_id,
-            'type' => $this->resource->type,
-            'type_name' => $this->resource->typeName,
+            'visibility' => $this->resource->visibilityLevel,
         ];
     }
 }

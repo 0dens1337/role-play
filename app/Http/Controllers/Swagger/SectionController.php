@@ -25,6 +25,26 @@ class SectionController extends Controller
     )]
     public function index(){}
 
+    #[OA\Post(
+        path: "/api/admin/sections/create",
+        summary: "Создать нового NPC",
+        security: [['cookieAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/SectionResource")
+        ),
+        tags: ["Sections"],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "NPC успешно создан",
+                content: new OA\JsonContent(ref: "#/components/schemas/CreateSectionRequest")
+            ),
+            new OA\Response(response: 422, description: "Ошибка валидации")
+        ]
+    )]
+    public function create(){}
+
     #[OA\Get(
         path: "/api/admin/sections/{section}/show",
         summary: "Получить один Раздел",
@@ -41,13 +61,13 @@ class SectionController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Информация о NPC",
+                description: "Информация о Section",
                 content: new OA\JsonContent(ref: "#/components/schemas/SectionResource")
             ),
             new OA\Response(response: 404, description: "NPC не найден")
         ]
     )]
-    public function shon(){}
+    public function show(){}
 
     #[OA\Put(
         path: "/api/admin/sections/{section}/update",
@@ -64,7 +84,7 @@ class SectionController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: "NPC успешно обновлён",
+                description: "Section успешно обновлён",
                 content: new OA\JsonContent(ref: "#/components/schemas/SectionResource")
             ),
             new OA\Response(response: 404, description: "NPC не найден"),
@@ -74,7 +94,7 @@ class SectionController extends Controller
     public function update(){}
 
     #[OA\Delete(
-        path: "/api/admin/sections/{section}/update",
+        path: "/api/admin/sections/{section}/delete",
         summary: "Удалить Раздел",
         security: [['cookieAuth' => []]],
         tags: ["Sections"],
@@ -84,7 +104,7 @@ class SectionController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: "NPC удалён",
+                description: "Section удалён",
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "message", type: "string", example: "Npc deleted successfully")

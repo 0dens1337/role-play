@@ -11,7 +11,6 @@ class UpdateSectionRequest extends FormRequest
         schema: "UpdateSectionRequest",
         properties: [
             new OA\Property(property: "name", type: "string", example: "TEST"),
-            new OA\Property(property: "short_description", type: "string", example: "TEST TEST"),
         ],
         type: "object"
     )]
@@ -19,7 +18,6 @@ class UpdateSectionRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string:max:50',
-            'short_description' => 'nullable|string:max:100',
         ];
     }
 }

@@ -3,14 +3,21 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
 class CreateSectionRequest extends FormRequest
 {
+    #[OA\Schema(
+        schema: "CreateSectionRequest",
+        properties: [
+            new OA\Property(property: "name", type: "string", example: "TEST"),
+        ],
+        type: "object"
+    )]
     public function rules(): array
     {
         return [
             'name' => 'required|string:max:50',
-            'short_description' => 'required|string:max:100',
         ];
     }
 }

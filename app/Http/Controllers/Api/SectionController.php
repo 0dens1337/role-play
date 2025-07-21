@@ -28,7 +28,7 @@ class SectionController extends Controller
     {
         $section = Section::query()->create($request->validated());
 
-        return SectionIndexResource::make($section);
+        return SectionResource::make($section);
     }
 
     public function update(UpdateSectionRequest $request, Section $section): SectionResource
