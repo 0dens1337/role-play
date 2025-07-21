@@ -31,7 +31,7 @@ class SectionController extends Controller
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: "#/components/schemas/SectionResource")
+            content: new OA\JsonContent(ref: "#/components/schemas/CreateSectionRequest")
         ),
         tags: ["Sections"],
         responses: [

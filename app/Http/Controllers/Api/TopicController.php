@@ -69,7 +69,7 @@ class TopicController extends Controller
         return TopicResource::make($topic);
     }
 
-    public function show(Topic $topic)
+    public function show(Topic $topic): TopicResource
     {
         Gate::authorize('view', $topic);
 
