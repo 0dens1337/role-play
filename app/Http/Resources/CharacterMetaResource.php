@@ -32,6 +32,7 @@ class CharacterMetaResource extends JsonResource
             'text_color' => $this->resource->text_color,
             'background_color' => $this->resource->background_color,
             'accent_color' => $this->resource->accent_color,
+            'image' => $this->resource->avatarUrl,
         ];
     }
 }

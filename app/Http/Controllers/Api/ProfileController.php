@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UploadUserAvatarRequest;
 use App\Http\Resources\ShowUserResource;
 use App\Services\AvatarService;
+use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
@@ -16,7 +17,7 @@ class ProfileController extends Controller
         return ShowUserResource::make($user);
     }
 
-    public function uploadAvatar(UploadUserAvatarRequest $request)
+    public function uploadAvatar(UploadUserAvatarRequest $request): JsonResponse
     {
         $request->validated();
         $file = $request->file('avatar');

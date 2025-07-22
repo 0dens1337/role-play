@@ -52,7 +52,8 @@ Route::middleware('checkToken')->group(function () {
         Route::get('my-characters', [CharacterController::class, 'authUserCharacters'])->name('my-characters');
         Route::post('create', [CharacterController::class, 'create'])->name('create');
         Route::get('/{character}/show', [CharacterController::class, 'show'])->name('show');
-        Route::post('/add-meta', [CharacterMetaController::class, 'create'])->name('add-meta');
+        Route::post('/{character}/add-meta', [CharacterMetaController::class, 'create'])->name('add-meta');
+        Route::patch('/{character}/update-meta', [CharacterMetaController::class, 'update'])->name('update-meta');
         Route::post('{character}/verification-data', [CharacterController::class, 'createReviewData'])->name('verification-data');
         Route::post('/{character}/update-verification-data', [CharacterController::class, 'updateReviewData'])->name('update-verification-data');
     });

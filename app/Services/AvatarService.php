@@ -37,4 +37,36 @@ class AvatarService
         $user->avatar = $originalPath;
         $user->save();
     }
+
+    public static function uploadCharacterAvatar($file, $character): array
+    {
+        $extension = $file->getClientOriginalExtension();
+        $folder = 'character/' . $character->id;
+
+        Storage::disk('public')->deleteDirectory($folder);
+
+        $originalPath = "$folder/original.$extension";
+        $resizedPath = "$folder/resized.$extension";
+
+        Storage::disk('public')->makeDirectory($folder);
+        Storage::disk('public')->put($originalPath, file_get_contents($file));
+
+        $absolutePath = Storage::disk('public')->path($originalPath);
+        $resizedImage = ImageManager::imagick()->read($absolutePath);
+        $resizedImage->resize(self::WIDTH, self::HEIGHT);
+
+        $encoded = match (strtolower($extension)) {
+            'jpg', 'jpeg' => $resizedImage->toJpeg(),
+            'png' => $resizedImage->toPng(),
+            'webp' => $resizedImage->toWebp(),
+            default => throw new InvalidArgumentException("Unsupported extension: $extension"),
+        };
+
+        Storage::disk('public')->put($resizedPath, (string) $encoded);
+
+        return [
+            'original_path' => $originalPath,
+            'resized_path' => $resizedPath,
+        ];
+    }
 }

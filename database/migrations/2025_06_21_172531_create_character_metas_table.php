@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('character_metas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('character_id')->constrained()->onDelete('cascade');
+            $table->foreignId('character_id')->unique()->constrained()->onDelete('cascade');
             $table->string('short_description');
             $table->string('image');
             $table->jsonb('likes');
