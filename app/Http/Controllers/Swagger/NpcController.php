@@ -14,7 +14,8 @@ class NpcController extends Controller
         tags: ["NPCs"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
-            new OA\Parameter(name: "per_page", in: "query", required: false, schema: new OA\Schema(type: "integer"))
+            new OA\Parameter(name: "per_page", in: "query", required: false, schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "name", in: "query", required: false, schema: new OA\Schema(type: "string")),
         ],
         responses: [
             new OA\Response(

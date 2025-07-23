@@ -74,6 +74,30 @@ class TopicController extends Controller
     )]
     public function indexForAuthenticatedUser(){}
 
+    #[OA\Get(
+        path: "/api/topics/{topic}/show",
+        summary: "Получить Topic",
+        security: [['cookieAuth' => []]],
+        tags: ["Topics"],
+        parameters: [
+            new OA\Parameter(
+                name: "topic",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Информация о NPC",
+                content: new OA\JsonContent(ref: "#/components/schemas/TopicResource")
+            ),
+            new OA\Response(response: 404, description: "Topic не найден")
+        ]
+    )]
+    public function show(){}
+
     #[OA\Post(
         path: "/api/admin/topics/create",
         summary: "Создать новый Topic",

@@ -2,7 +2,7 @@
 
 ## ⚙️ Установка
 
-1. Скопируйте файл конфигурации окружения (Важно! не забудь указать свой GID и UID для группы докера):
+1. Скопируйте файл конфигурации окружения (Важно! не забудь указать свой GID и UID для группы докера, по дефолту это 1000):
 
 ```bash
 cp .env.example .env
@@ -33,10 +33,6 @@ docker exec -it php php artisan tinker
 
 ```bash
 User::create(['login' => 'admin_1', 'email' => 'admin@mail.ru', 'role' => 3, 'password' => bcrypt('вставь_свой_пароль')])
-```
-
-```bash
-docker exec -it php php artisan passport:client --personal
 ```
 
 Дополнительно: Если у вас Винда то нужно будет раскоментировать разрешение модуля gd в php.ini

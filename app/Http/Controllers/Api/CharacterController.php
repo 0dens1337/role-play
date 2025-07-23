@@ -21,7 +21,9 @@ class CharacterController extends Controller
     {
         $validated = $request->validated();
 
-        $query = Character::query()->latest()
+        $query = Character::query()
+            ->with('characterMeta')
+            ->latest()
             ->filter($validated);
 
         $characters = ! empty($validated['without_paginate'])

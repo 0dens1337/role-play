@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
-class CharactersResource extends JsonResource
+class OrganizationIndexResource extends JsonResource
 {
     #[OA\Schema(
-        schema: "CharactersResource",
+        schema: "OrganizationIndexResource",
         properties: [
             new OA\Property(property: "id", type: "integer", example: 1),
-            new OA\Property(property: "name", type: "string", example: "John Doe"),
+            new OA\Property(property: "name", type: "string", example: "johndoe"),
+            new OA\Property(property: "logo",  type: "string", example: "https://example.com/avatar.jpg"),
         ],
         type: "object"
     )]
@@ -20,8 +21,8 @@ class CharactersResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'logo' => $this->resource->logo,
             'name' => $this->resource->name,
-            'indexMeta' => CharacterMetaIndexResource::make($this->whenLoaded('characterMeta')),
         ];
     }
 }

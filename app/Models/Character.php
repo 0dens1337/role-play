@@ -13,7 +13,7 @@ class Character extends Model
 {
     protected $fillable = [
         'name',
-        'description',
+        'organization_id',
         'occupation',
         'age',
         'race',
@@ -36,6 +36,11 @@ class Character extends Model
     public function characterMeta(): HasOne
     {
         return $this->hasOne(CharacterMeta::class);
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     public function scopeFilter($query, array $filters): void

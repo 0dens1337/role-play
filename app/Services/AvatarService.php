@@ -14,25 +14,9 @@ class AvatarService
     public static function uploadAvatar($file): void
     {
         $user = auth()->user();
-        $extension = $file->getClientOriginalExtension();
-
         $folder = 'avatars/user_' . $user->id;
-        $originalPath = "$folder/original.$extension";
-        $resizedPath = "$folder/resized.$extension";
 
-        Storage::disk('public')->put($originalPath, file_get_contents($file));
-
-        $absolutePath = Storage::disk('public')->path($originalPath);
-        $resizedImage = ImageManager::imagick()->read($absolutePath); // для винды поставить gd() вместо imagick()
-        $resizedImage->resize(self::WIDTH, self::HEIGHT);
-
-        $encoded = match (strtolower($extension)) {
-            'jpg', 'jpeg' => $resizedImage->toJpeg(),
-            'png' => $resizedImage->toPng(),
-            'webp' => $resizedImage->toWebp(),
-            default => throw new InvalidArgumentException("Не поддерживаемое разрешение: $extension"),
-        };
-        Storage::disk('public')->put($resizedPath, (string) $encoded);
+        [$originalPath, $resizedPath] = self::processAndStore($file, $folder);
 
         $user->avatar = $originalPath;
         $user->save();
@@ -40,22 +24,48 @@ class AvatarService
 
     public static function uploadCharacterAvatar($file, $character): array
     {
-        $extension = $file->getClientOriginalExtension();
         $folder = 'character/' . $character->id;
 
         Storage::disk('public')->deleteDirectory($folder);
+        Storage::disk('public')->makeDirectory($folder);
+
+        [$originalPath, $resizedPath] = self::processAndStore($file, $folder);
+
+        return [
+            'original_path' => $originalPath,
+            'resized_path' => $resizedPath,
+        ];
+    }
+
+    public static function uploadOrganizationAvatar($file, $organization): array
+    {
+        $folder = 'organization/' . $organization->id;
+
+        Storage::disk('public')->deleteDirectory($folder);
+        Storage::disk('public')->makeDirectory($folder);
+
+        [$originalPath, $resizedPath] = self::processAndStore($file, $folder);
+
+        return [
+            'original_path' => $originalPath,
+            'resized_path' => $resizedPath,
+        ];
+    }
+
+    private static function processAndStore($file, string $folder): array
+    {
+        $extension = strtolower($file->getClientOriginalExtension());
 
         $originalPath = "$folder/original.$extension";
         $resizedPath = "$folder/resized.$extension";
 
-        Storage::disk('public')->makeDirectory($folder);
         Storage::disk('public')->put($originalPath, file_get_contents($file));
 
         $absolutePath = Storage::disk('public')->path($originalPath);
         $resizedImage = ImageManager::imagick()->read($absolutePath);
         $resizedImage->resize(self::WIDTH, self::HEIGHT);
 
-        $encoded = match (strtolower($extension)) {
+        $encoded = match ($extension) {
             'jpg', 'jpeg' => $resizedImage->toJpeg(),
             'png' => $resizedImage->toPng(),
             'webp' => $resizedImage->toWebp(),
@@ -64,9 +74,6 @@ class AvatarService
 
         Storage::disk('public')->put($resizedPath, (string) $encoded);
 
-        return [
-            'original_path' => $originalPath,
-            'resized_path' => $resizedPath,
-        ];
+        return [$originalPath, $resizedPath];
     }
 }

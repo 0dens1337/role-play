@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CharacterController;
 use App\Http\Controllers\Api\CharacterMetaController;
 use App\Http\Controllers\Api\DiffController;
 use App\Http\Controllers\Api\NpcController;
+use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RemoveTagController;
 use App\Http\Controllers\Api\SectionController;
@@ -68,6 +69,11 @@ Route::middleware('checkToken')->group(function () {
         Route::get('{section}/show', [SectionController::class, 'show'])->name('show');
     });
 
+    Route::prefix('organizations')->name('organizations.')->group(function () {
+        Route::get('/', [OrganizationController::class, 'index'])->name('index');
+        Route::get('/{organization}/show', [OrganizationController::class, 'show'])->name('show');
+    });
+
     Route::middleware('admin')->group(function () {
         Route::prefix('/admin')->name('admin.')->group(function () {
 
@@ -125,6 +131,15 @@ Route::middleware('checkToken')->group(function () {
                 Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
                 Route::patch('{topic}/update', [TopicController::class, 'update'])->name('update');
                 Route::delete('{topic}/delete', [TopicController::class, 'delete'])->name('destroy');
+            });
+
+            Route::prefix('organizations')->name('organizations.')->group(function () {
+                Route::get('/', [OrganizationController::class, 'index'])->name('index');
+                Route::post('/create', [OrganizationController::class, 'create'])->name('create');
+                Route::get('/{organization}/show', [OrganizationController::class, 'show'])->name('show');
+                Route::patch('/{organization}/update', [OrganizationController::class, 'update'])->name('update');
+                Route::delete('/{organization}/delete', [OrganizationController::class, 'delete'])->name('destroy');
+                Route::post('{organization}/add-members', [OrganizationController::class, 'addMembers'])->name('add-members');
             });
 
         });
