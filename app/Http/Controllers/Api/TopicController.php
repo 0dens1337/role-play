@@ -21,7 +21,8 @@ class TopicController extends Controller
 
         $validated = $request->validated();
 
-        $query = Topic::query();
+        $query = Topic::query()
+            ->filter();
 
         $topics = isset($validated['without_paginate'])
             ? $query->get()

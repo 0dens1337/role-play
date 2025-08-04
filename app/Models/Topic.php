@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\TopicTypeEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Topic extends Model
 {
     protected $fillable = [
         'title',
         'description',
-        'section_id',
         'for_everyone',
         'has_character',
         'user_id',
+        'belongable_type',
+        'belongable_id',
     ];
 
     public function user(): BelongsTo
@@ -23,9 +24,9 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function section(): BelongsTo
+    public function belongable(): MorphTo
     {
-        return $this->belongsTo(Section::class);
+        return $this->morphTo();
     }
 
     public function scopeVisibleToEveryone($query)
@@ -36,6 +37,13 @@ class Topic extends Model
     public function scopeVisibleToAuthOnly($query)
     {
         return $query->where('has_character', false);
+    }
+
+    public function scopeFilter($query, array $filters): void
+    {
+        $query->when(isset($filters['title']), function ($query) use ($filters) {
+            $query->where('title', 'like', '%' . $filters['title'] . '%');
+        });
     }
 
     public function visibilityLevel(): Attribute

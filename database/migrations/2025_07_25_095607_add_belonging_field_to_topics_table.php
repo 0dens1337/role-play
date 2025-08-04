@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('topics', function (Blueprint $table) {
-            $table->foreignId('section_id')
-                ->nullable()
-                ->constrained()
-                ->onDelete('set null');
+            $table->morphs('belongable');
         });
     }
 
@@ -25,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('topics', function (Blueprint $table) {
-            $table->dropForeign('topics_section_id_foreign');
+            $table->dropMorphs('belongable');
         });
     }
 };

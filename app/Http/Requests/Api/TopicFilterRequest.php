@@ -11,6 +11,7 @@ class TopicFilterRequest extends FormRequest
         return [
             'without_paginate' => 'nullable|boolean',
             'per_page' => 'nullable|integer',
+            'title' => 'nullable|string',
         ];
     }
 }
