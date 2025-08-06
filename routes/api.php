@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CharacterController;
 use App\Http\Controllers\Api\CharacterMetaController;
 use App\Http\Controllers\Api\DiffController;
+use App\Http\Controllers\Api\InviteCodeController;
 use App\Http\Controllers\Api\NpcController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
@@ -20,13 +21,18 @@ Route::prefix('guest')->name('guest.')->group(function () {
         Route::get('/', [TopicController::class, 'indexForEveryone'])->name('indexForEveryone');
         Route::get('/{topic}/show', [TopicController::class, 'show'])->name('show');
     });
+
+    Route::prefix('invites')->name('invites.')->group(function () {
+        Route::get('/', [InviteCodeController::class, 'indexNumOfCharacters'])->name('index-num-of-characters');
+        Route::post('/validate-code', [AuthController::class, 'validateInviteCode'])->name('validate-code');
+    });
 });
 
 Route::middleware('checkToken')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
-        Route::post('register', [AuthController::class, 'register'])->name('register')->withoutMiddleware('checkToken');
-        Route::post('login', [AuthController::class, 'login'])->name('login')->withoutMiddleware('checkToken');
-        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+        Route::post('register', [AuthController::class, 'register'])->name('register')->middleware('checkInviteCode')->withoutMiddleware('checkToken');
+        Route::post('login', [AuthController::class, 'login'])->name('login')->middleware('checkInviteCode')->withoutMiddleware('checkToken');
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('checkInviteCode');
     });
 
     Route::prefix('users')->name('users.')->group(function () {
@@ -140,6 +146,12 @@ Route::middleware('checkToken')->group(function () {
                 Route::patch('/{organization}/update', [OrganizationController::class, 'update'])->name('update');
                 Route::delete('/{organization}/delete', [OrganizationController::class, 'delete'])->name('destroy');
                 Route::post('{organization}/add-members', [OrganizationController::class, 'addMembers'])->name('add-members');
+            });
+
+            Route::prefix('invites')->name('invites.')->group(function () {
+               Route::get('/', [InviteCodeController::class, 'index'])->name('index');
+               Route::post('/create-invite-code', [InviteCodeController::class, 'store'])->name('create-invite-code');
+               Route::delete('{inviteCode}/delete', [InviteCodeController::class, 'delete'])->name('delete');
             });
 
         });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\EnsureInviteValidated;
 use App\Http\Middleware\HasTokenInCookie;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'checkToken' => HasTokenInCookie::class,
+            'checkInviteCode' => EnsureInviteValidated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

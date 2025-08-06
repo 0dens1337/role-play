@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\InviteCodeRequest;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Http\Resources\RegisterUserResource;
+use App\Models\InviteCode;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,6 +16,32 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function validateInviteCode(InviteCodeRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $inviteCode = InviteCode::query()
+            ->where('code', $validated['code'])->first();
+
+        if (! $inviteCode || $inviteCode->isValid()) {
+            return response()->json(['Не верный или уже использованный код'], 422);
+        }
+
+        $inviteCode->markUsed();
+
+        return response()->json([
+            'message' => 'Invite-code принят, можете переходить к регистрации / логину.',
+        ])->cookie(
+            'invite_code',
+            encrypt($inviteCode->code),
+            60 * 24,
+            null,
+            null,
+            false,
+            true,
+        );
+    }
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = User::query()->create($request->validated());

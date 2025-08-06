@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\InviteCode;
 use App\Models\Section;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,13 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'login' => 'intelligentpunk',
+            'email' => 'arinashalkevish@gmail.com',
+            'password' => '94Vumana',
+            'role' => 3,
         ]);
 
-        Section::factory(4)->create();
+        InviteCode::factory()->create([
+            'code' => 'Rabbitrun',
+            'num_of_symbols' => 9,
+            'max_uses' => 10,
+            'uses' => 0,
+            'expires_at' => now()->addDays(10),
+        ]);
     }
 }

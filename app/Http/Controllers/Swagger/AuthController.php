@@ -8,6 +8,24 @@ use OpenApi\Attributes as OA;
 class AuthController extends Controller
 {
     #[OA\Post(
+        path: "/api/guest/invites/validate-code",
+        summary: "Валидация кода",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/InviteCodeRequest")
+        ),
+        tags: ["Auth"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Успешная валидация кода, можете продолжить авторизацию!",
+            ),
+            new OA\Response(response: 422, description: "Ошибка валидации")
+        ]
+    )]
+    public function validateInviteCode(){}
+
+    #[OA\Post(
         path: "/api/auth/register",
         summary: "Регистрация нового пользователя",
         requestBody: new OA\RequestBody(
