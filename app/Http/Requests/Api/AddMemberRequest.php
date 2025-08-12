@@ -11,6 +11,7 @@ class AddMemberRequest extends FormRequest
         schema: "AddMemberRequest",
         properties: [
             new OA\Property(property: "character_ids", type: "array", items: new OA\Items(type: "integer"), example: [1, 2, 3]),
+            new OA\Property(property: "role", type: "integer", default: 1, example: 1),
         ],
         type: "object",
         example: ["character_ids" => [1, 2, 3]]
@@ -20,6 +21,7 @@ class AddMemberRequest extends FormRequest
         return [
             'character_ids' => 'required|array',
             'character_ids.*' => 'required|integer|exists:characters,id',
+            'role' => 'nullable|integer'
         ];
     }
 }

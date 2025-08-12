@@ -18,7 +18,7 @@ docker compose up -d --build
 docker compose up -d --remove-orphans
 ```
 
-установка зависимостей и дополнительные шаги для настройки рабочего окружения Laravel, создание админа и Invite кода.
+установка зависимостей и дополнительные шаги для настройки рабочего окружения Laravel, создание админа и Invitedock кода.
 ```bash
 docker compose exec php bash composer install
 ```

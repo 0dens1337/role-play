@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CharacterController;
 use App\Http\Controllers\Api\CharacterMetaController;
 use App\Http\Controllers\Api\DiffController;
 use App\Http\Controllers\Api\InviteCodeController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\NpcController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
@@ -80,6 +81,14 @@ Route::middleware('checkToken')->group(function () {
         Route::get('/{organization}/show', [OrganizationController::class, 'show'])->name('show');
     });
 
+    Route::prefix('locations')->name('locations.')->group(function () {
+       Route::get('/', [LocationController::class, 'index'])->name('index');
+       Route::get('/{location}/show', [LocationController::class, 'show'])->name('show');
+       Route::post('/create', [LocationController::class, 'create'])->name('create');
+       Route::patch('/{location}/update', [LocationController::class, 'update'])->name('update');
+       Route::delete('/{location}/delete', [LocationController::class, 'delete'])->name('delete');
+    });
+
     Route::middleware('admin')->group(function () {
         Route::prefix('/admin')->name('admin.')->group(function () {
 
@@ -146,6 +155,7 @@ Route::middleware('checkToken')->group(function () {
                 Route::patch('/{organization}/update', [OrganizationController::class, 'update'])->name('update');
                 Route::delete('/{organization}/delete', [OrganizationController::class, 'delete'])->name('destroy');
                 Route::post('{organization}/add-members', [OrganizationController::class, 'addMembers'])->name('add-members');
+                Route::post('{organization}/kick-member', [OrganizationController::class, 'kickMember'])->name('kick-member');
             });
 
             Route::prefix('invites')->name('invites.')->group(function () {

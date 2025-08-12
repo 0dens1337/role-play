@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organization extends Model
@@ -16,9 +17,9 @@ class Organization extends Model
         'parent_id',
     ];
 
-    public function characters(): HasMany
+    public function characters(): BelongsToMany
     {
-        return $this->hasMany(Character::class);
+        return $this->belongsToMany(Character::class);
     }
 
     public function parent(): BelongsTo
@@ -29,6 +30,11 @@ class Organization extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Organization::class,'parent_id');
+    }
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class);
     }
 
     public function scopeFilter($query, array $filters)

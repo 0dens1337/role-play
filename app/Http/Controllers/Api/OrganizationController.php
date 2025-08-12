@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AddMemberRequest;
 use App\Http\Requests\Api\CreateOrganizationRequest;
+use App\Http\Requests\Api\KickMemberRequest;
 use App\Http\Requests\Api\OrganizationFilterRequest;
 use App\Http\Requests\Api\UpdateOrganizationRequest;
 use App\Http\Resources\OrganizationIndexResource;
@@ -47,11 +48,37 @@ class OrganizationController extends Controller
     {
         $charactersIds = $request->validated()['character_ids'];
 
-        Character::query()->whereIn('id', $charactersIds)
-            ->update(['organization_id' => $organization->id]);
+        if ($organization->characters()->wherePivotIn('character_id', $charactersIds)->exists()) {
+            return response()->json([
+                'message' => 'Этот персонаж уже в организации'
+            ]);
+        }
+
+        $charactersCollection = collect($charactersIds);
+
+        $organization->characters()->syncWithoutDetaching(
+            collect($charactersCollection->mapWithKeys(fn ($id) => [$id => ['created_at' => now()]]))->toArray()
+        );
 
         return response()->json([
-            'message' => 'Members added to organization',
+            'message' => 'Персонаж добавлен в оргу',
+        ]);
+    }
+
+    public function kickMember(Organization $organization, KickMemberRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        if (! $organization->characters()->wherePivot('character_id', $validated['character_id'])->exists()) {
+            return response()->json([
+                'message' => 'Такого персонажа нету в орге'
+            ]);
+        }
+
+        $organization->characters()->detach($validated['character_id']);
+
+        return response()->json([
+            'message' => 'Персонаж успешно кикнут'
         ]);
     }
 

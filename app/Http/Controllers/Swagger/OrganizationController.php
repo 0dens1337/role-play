@@ -55,7 +55,7 @@ class OrganizationController extends Controller
     public function show(){}
 
     #[OA\Post(
-        path: "/api/admin/add-members",
+        path: "/api/admin/{organization}/add-members",
         summary: "Создать ручное добавление персонажа к орге",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
@@ -63,16 +63,50 @@ class OrganizationController extends Controller
             content: new OA\JsonContent(ref: "#/components/schemas/AddMemberRequest")
         ),
         tags: ["Organizations"],
+        parameters: [
+            new OA\Parameter(
+                name: "organization",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 201,
                 description: "Перс добавлен в оргу",
-                content: new OA\JsonContent(ref: "#/components/schemas/NpcResource")
             ),
             new OA\Response(response: 422, description: "Ошибка валидации")
         ]
     )]
     public function addMembers(){}
+
+    #[OA\Post(
+        path: "/api/admin/{organization}/kick-members",
+        summary: "Создать ручное удаление персонажа в орге",
+        security: [['cookieAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/KickMemberRequest")
+        ),
+        tags: ["Organizations"],
+        parameters: [
+            new OA\Parameter(
+                name: "organization",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Перс удален из оргу",
+            ),
+            new OA\Response(response: 422, description: "Ошибка валидации")
+        ]
+    )]
+    public function kickMember(){}
 
     #[OA\Post(
         path: "/api/admin/create",

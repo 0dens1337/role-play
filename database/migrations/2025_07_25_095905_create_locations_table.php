@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('header_image')->nullable();
             $table->string('header_text')->nullable();
 
+            $table->foreignId('organization_id')->nullable()->constrained()->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

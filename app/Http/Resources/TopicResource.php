@@ -16,6 +16,8 @@ class TopicResource extends JsonResource
             new OA\Property(property: "description", type: "string", example: "Test"),
             new OA\Property(property: "visibility", type: "string", example: "For Everyone"),
             new OA\Property(property: "section_id", type: "integer", example: 1),
+            new OA\Property(property: "belongable_type", type: "string", example: 'App\Models\Location'),
+            new OA\Property(property: "belongable_id", type: "integer", example: 1),
         ],
         type: "object"
     )]
@@ -27,6 +29,8 @@ class TopicResource extends JsonResource
             'description' => $this->resource->description,
             'visibility' => $this->resource->visibilityLevel,
             'section_id' => $this->resource->section_id,
+            'belongable_type' => $this->resource->belongable_type,
+            'belongable_id' => $this->resource->belongable_id,
         ];
     }
 }

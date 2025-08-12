@@ -10,8 +10,8 @@ class LoginRequest extends FormRequest
     #[OA\Schema(
         schema: "LoginRequest",
         properties: [
-            new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
-            new OA\Property(property: "password", type: "string", format: "password", example: "StrongP@ss123"),
+            new OA\Property(property: "email", type: "string", format: "email", example: "arinashalkevich@gmail.com"),
+            new OA\Property(property: "password", type: "string", format: "password", example: "94Vumana"),
         ],
         type: "object"
     )]

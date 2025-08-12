@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use App\Enums\TopicTypeEnum;
+use App\Models\Location;
 use App\Models\Organization;
 use App\Models\Section;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,6 +21,8 @@ class CreateTopicRequest extends FormRequest
             new OA\Property(property: "for_everyone", type: "boolean", example: false),
             new OA\Property(property: "has_character", type: "boolean", example: false),
             new OA\Property(property: "user_id", type: "integer", example: 1, nullable: false),
+            new OA\Property(property: "belongable_type", type: "string", example: 'App\Models\Section', nullable: false),
+            new OA\Property(property: "belongable_id", type: "integer", example: 1, nullable: false),
         ],
         type: "object"
     )]
@@ -32,7 +35,7 @@ class CreateTopicRequest extends FormRequest
             'has_character' => 'nullable|boolean',
             'user_id' => 'required|integer|exists:users,id',
 
-            'belongable_type' => 'required|string|in:App\Models\Section,App\Models\Organization',
+            'belongable_type' => 'required|string|in:App\Models\Section,App\Models\Location',
             'belongable_id' => 'required|integer',
         ];
     }
@@ -51,7 +54,7 @@ class CreateTopicRequest extends FormRequest
                 $modelClass = $this->belongable_type;
                 if (!class_exists($modelClass) || !in_array($modelClass, [
                         Section::class,
-                        Organization::class,
+                        Location::class,
                     ])) {
                     $validator->errors()->add('belongable_type', 'Недопустимый тип модели');
                 } elseif (!$modelClass::query()->where('id', $this->belongable_id)->exists()) {

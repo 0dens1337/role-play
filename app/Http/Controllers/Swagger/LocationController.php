@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 use OpenApi\Attributes as OA;
 
-class NpcController extends Controller
+class LocationController extends Controller
 {
     #[OA\Get(
-        path: "/api/npcs/",
-        summary: "Список NPC",
+        path: "/api/locations/",
+        summary: "Список Локаций + Фильтрация",
         security: [['cookieAuth' => []]],
-        tags: ["NPCs"],
+        tags: ["Locations"],
         parameters: [
             new OA\Parameter(name: "without_paginate", in: "query", required: false, schema: new OA\Schema(type: "integer", default: 0)),
             new OA\Parameter(name: "per_page", in: "query", required: false, schema: new OA\Schema(type: "integer")),
@@ -31,13 +31,13 @@ class NpcController extends Controller
     public function index(){}
 
     #[OA\Get(
-        path: "/api/npcs/{npc}/show",
-        summary: "Получить одного NPC",
+        path: "/api/locations/{location}/show",
+        summary: "Просмотреть конкретную локацию",
         security: [['cookieAuth' => []]],
-        tags: ["NPCs"],
+        tags: ["Locations"],
         parameters: [
             new OA\Parameter(
-                name: "npc",
+                name: "location",
                 in: "path",
                 required: true,
                 schema: new OA\Schema(type: "integer")
@@ -46,28 +46,28 @@ class NpcController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Информация о NPC",
-                content: new OA\JsonContent(ref: "#/components/schemas/NpcShowResource")
+                description: "Информация о Локации",
+                content: new OA\JsonContent(ref: "#/components/schemas/LocationResource")
             ),
-            new OA\Response(response: 404, description: "NPC не найден")
+            new OA\Response(response: 404, description: "Локация не найдена")
         ]
     )]
     public function show(){}
 
     #[OA\Post(
-        path: "/api/npcs/create",
-        summary: "Создать нового NPC",
+        path: "/api/locations/create",
+        summary: "Создать локацию",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: "#/components/schemas/CreateNpcRequest")
+            content: new OA\JsonContent(ref: "#/components/schemas/StoreLocationRequest")
         ),
-        tags: ["NPCs"],
+        tags: ["Locations"],
         responses: [
             new OA\Response(
                 response: 201,
-                description: "NPC успешно создан",
-                content: new OA\JsonContent(ref: "#/components/schemas/NpcResource")
+                description: "локация успешно создана",
+                content: new OA\JsonContent(ref: "#/components/schemas/LocationResource")
             ),
             new OA\Response(response: 422, description: "Ошибка валидации")
         ]
@@ -75,16 +75,16 @@ class NpcController extends Controller
     public function create(){}
 
     #[OA\Patch(
-        path: "/api/npcs/{npc}/update",
-        summary: "Обновить NPC",
+        path: "/api/locations/{location}/show",
+        summary: "Обновить location",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/UpdateNpcRequest")
         ),
-        tags: ["NPCs"],
+        tags: ["Locations"],
         parameters: [
-            new OA\Parameter(name: "npc", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+            new OA\Parameter(name: "location", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
         responses: [
             new OA\Response(
@@ -99,25 +99,25 @@ class NpcController extends Controller
     public function update(){}
 
     #[OA\Delete(
-        path: "/api/npcs/{npc}/delete",
+        path: "/api/locations/{location}/delete",
         summary: "Удалить NPC",
         security: [['cookieAuth' => []]],
-        tags: ["NPCs"],
+        tags: ["Locations"],
         parameters: [
-            new OA\Parameter(name: "npc", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+            new OA\Parameter(name: "location", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "NPC удалён",
+                description: "location удалён",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "message", type: "string", example: "Npc deleted successfully")
+                        new OA\Property(property: "message", type: "string", example: "Location deleted successfully")
                     ],
                     type: "object"
                 )
             ),
-            new OA\Response(response: 404, description: "NPC не найден")
+            new OA\Response(response: 404, description: "location не найден")
         ]
     )]
     public function delete(){}

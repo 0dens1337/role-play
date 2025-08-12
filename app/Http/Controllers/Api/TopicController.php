@@ -22,7 +22,7 @@ class TopicController extends Controller
         $validated = $request->validated();
 
         $query = Topic::query()
-            ->filter();
+            ->filter($validated);
 
         $topics = isset($validated['without_paginate'])
             ? $query->get()
@@ -35,7 +35,8 @@ class TopicController extends Controller
     {
         $validated = $request->validated();
 
-        $query = Topic::visibleToEveryone();
+        $query = Topic::query()
+            ->visibleToEveryone();
 
         $topics = isset($validated['without_paginate'])
             ? $query->get()
