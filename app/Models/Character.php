@@ -27,6 +27,7 @@ class Character extends Model
         'magic_skills',
         'non_magic_skills',
         'user_id',
+        'exp'
     ];
 
     public function user(): BelongsTo
@@ -54,5 +55,28 @@ class Character extends Model
     public function diffs(): HasMany
     {
         return $this->hasMany(Diff::class);
+    }
+
+    public function levelInfo(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $currentLevel = Level::query()->where('required_exp', '<=', $this->exp)
+                    ->orderByDesc('level')
+                    ->first();
+
+                $nextLevel = Level::query()->where('level', $currentLevel->level + 1)
+                    ->first();
+
+                return [
+                    'exp' => $this->exp,
+                    'level' => $currentLevel->level,
+                    'title' => $currentLevel->title,
+                    'next_level_exp' => $nextLevel?->required_exp,
+                    'exp_to_next_level' => $nextLevel ? $nextLevel->required_exp - $this->exp : null,
+                    'is_max_level' => $nextLevel === null,
+                ];
+            }
+        );
     }
 }

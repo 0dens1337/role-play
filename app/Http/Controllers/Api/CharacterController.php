@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\AddExpRequest;
 use App\Http\Requests\Api\FilterCharacterRequest;
+use App\Http\Requests\Api\RemoveExpRequest;
 use App\Http\Requests\Api\StoreCharacterReviewDataRequest;
 use App\Http\Requests\Api\UpdateCharacterReviewDataRequest;
 use App\Http\Resources\CharactersResource;
@@ -52,7 +54,8 @@ class CharacterController extends Controller
     public function create(): CharactersShowResource
     {
         $character = Character::query()
-            ->create(['user_id' => auth()->id()]);
+            ->create(['user_id' => auth()->id()])
+            ->refresh();
 
         return CharactersShowResource::make($character);
     }
@@ -83,6 +86,37 @@ class CharacterController extends Controller
 
         return response()->json([
             'message' => 'Data was sent successfully',
+        ]);
+    }
+
+    public function delete(Character $character): JsonResponse
+    {
+        $character->delete();
+
+        return response()->json([
+            'message' => 'Character was deleted',
+        ]);
+    }
+
+    public function addExp(Character $character, AddExpRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $character->update(['exp' => $validated['exp']]);
+
+        return response()->json([
+            'message' => 'Exp was added successfully',
+        ]);
+    }
+
+    public function removeExp(Character $character, RemoveExpRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $character->update(['exp' => $validated['exp']]);
+
+        return response()->json([
+            'message' => 'Exp was removed successfully',
         ]);
     }
 }

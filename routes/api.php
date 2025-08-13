@@ -121,6 +121,9 @@ Route::middleware('checkToken')->group(function () {
 
             Route::prefix('/characters')->name('characters.')->group(function () {
                 Route::get('/', [CharacterController::class, 'index'])->name('index');
+                Route::delete('/{character}/delete', [CharacterController::class, 'delete'])->name('delete');
+                Route::post('/{character}/add-exp', [CharacterController::class, 'addExp'])->name('add-exp');
+                Route::post('/{character}/remove-exp', [CharacterController::class, 'removeExp'])->name('remove-exp');
             });
 
             Route::prefix('/diffs')->name('diffs.')->group(function () {

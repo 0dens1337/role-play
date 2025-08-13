@@ -3,11 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\InviteCode;
-use App\Models\Section;
+use App\Models\Level;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,5 +28,30 @@ class DatabaseSeeder extends Seeder
             'uses' => 0,
             'expires_at' => now()->addDays(10),
         ]);
+
+        $titles = [
+            'Тень',
+            'Призрак',
+            'Безликий',
+            'Уличный лис',
+            'Серый ворон',
+            'Ловчий эха',
+            'Ходящий в тумане',
+            'Ночной глаз',
+            'Хозяин переулков',
+            'Имя в камне',
+            'Имя в камне',
+        ];
+
+        for ($n = 0; $n <= 50; $n++) {
+            $titleIndex = intdiv($n, 5);
+            $exp = 10 * $n * $n;
+
+            Level::query()->create([
+                'title' => $titles[$titleIndex],
+                'required_exp' => $exp,
+                'level' => $n,
+            ]);
+        }
     }
 }

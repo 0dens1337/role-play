@@ -26,6 +26,12 @@ class CharactersShowResource extends JsonResource
             new OA\Property(property: "magic_skills", type: "array", items: new OA\Items(type: "string")),
             new OA\Property(property: "non_magic_skills", type: "array", items: new OA\Items(type: "string")),
             new OA\Property(property: "user_id", type: "integer", example: 5),
+            new OA\Property(property: "exp", type: "integer", example: 5),
+            new OA\Property(property: "level", type: "integer", example: 5),
+            new OA\Property(property: "title", type: "string", example: 'test'),
+            new OA\Property(property: "next_level_exp", type: "integer", example: 10),
+            new OA\Property(property: "exp_to_next_level", type: "integer", example: 5),
+            new OA\Property(property: "is_max_level", type: "integer", example: 100),
         ],
         type: "object"
     )]
@@ -49,6 +55,7 @@ class CharactersShowResource extends JsonResource
             'non_magic_skills' => $this->resource->non_magic_skills,
             'just_created' => $this->resource->just_created,
             'meta' => CharacterMetaResource::make($this->whenLoaded('characterMeta')),
+            'level_info' => $this->resource->level_info,
         ];
     }
 }
