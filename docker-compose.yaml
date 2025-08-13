@@ -11,23 +11,39 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   nginx:
-    container_name: 'nginx'
+    container_name: nginx
     image: nginx:1.25.5-alpine
-    ports:
-      - "80:80"
     volumes:
       - ./:/var/www
       - ./docker/web-server:/etc/nginx/conf.d
+    expose:
+      - "80"
+
   php:
-    container_name: 'php'
+    container_name: php
     build:
       context: ./docker/php
-      args:
-        UID: ${DOCKER_UID}
-        GID: ${DOCKER_GID}
     volumes:
       - ./:/var/www
+
+  caddy:
+    container_name: caddy
+    image: caddy:2.7.6
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nginx
+
 volumes:
   postgres_data:
     driver: local
+  caddy_data:
+  caddy_config:

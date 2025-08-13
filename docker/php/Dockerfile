@@ -39,11 +39,5 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN groupadd -o -g ${GID} -r www
-
-RUN useradd -u ${UID} -ms /bin/bash -g www www
-
-USER www
-
 EXPOSE 9000
 CMD ["php-fpm"]

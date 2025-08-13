@@ -1,0 +1,3 @@
+veldrecht.site {
+    reverse_proxy nginx:80
+}
