@@ -15,9 +15,4 @@ class Level extends Model
         'title',
         'level'
     ];
-
-    public function characters(): HasMany
-    {
-        return $this->hasMany(Character::class);
-    }
 }
