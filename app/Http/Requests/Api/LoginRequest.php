@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
         schema: "LoginRequest",
         properties: [
             new OA\Property(property: "email", type: "string", format: "email", example: "arinashalkevich@gmail.com"),
-            new OA\Property(property: "password", type: "string", format: "password", example: "94Vumana"),
+            new OA\Property(property: "password", type: "string", format: "password", example: "password"),
         ],
         type: "object"
     )]
