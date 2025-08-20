@@ -1,5 +1,6 @@
 veldrecht.site {
-  route /api/* {
+  handle_path /api/* {
+    rewrite * /api{path}
     reverse_proxy nginx:80
   }
 
