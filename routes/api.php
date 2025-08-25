@@ -79,6 +79,10 @@ Route::middleware('checkToken')->group(function () {
     Route::prefix('organizations')->name('organizations.')->group(function () {
         Route::get('/', [OrganizationController::class, 'index'])->name('index');
         Route::get('/{organization}/show', [OrganizationController::class, 'show'])->name('show');
+        Route::post('{organization}/add-members', [OrganizationController::class, 'addMembers'])->name('add-members');
+        Route::post('{organization}/kick-member', [OrganizationController::class, 'kickMember'])->name('kick-member');
+        Route::patch('{organization}/promote-member', [OrganizationController::class, 'promoteMember'])->name('promote-member');
+        Route::patch('{organization}/demote-member', [OrganizationController::class, 'demoteMember'])->name('demote-member');
     });
 
     Route::prefix('locations')->name('locations.')->group(function () {

@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AddMemberRequest;
 use App\Http\Requests\Api\CreateOrganizationRequest;
+use App\Http\Requests\Api\DemoteMemberRequest;
 use App\Http\Requests\Api\KickMemberRequest;
 use App\Http\Requests\Api\OrganizationFilterRequest;
+use App\Http\Requests\Api\PromoteMemberRequest;
 use App\Http\Requests\Api\UpdateOrganizationRequest;
 use App\Http\Resources\OrganizationIndexResource;
 use App\Http\Resources\ShowOrganizationResource;
-use App\Models\Character;
 use App\Models\Organization;
 use App\Services\AvatarService;
+use App\Services\OrganizationRoleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -79,6 +81,76 @@ class OrganizationController extends Controller
 
         return response()->json([
             'message' => 'Персонаж успешно кикнут'
+        ]);
+    }
+
+    public function promoteMember(Organization $organization, PromoteMemberRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $character = $organization->characters()
+            ->wherePivot('character_id', $validated['character_id'])
+            ->first();
+
+        if (! $character) {
+            return response()->json([
+                'message' => 'Данного персонажа нет в орге'
+            ], 404);
+        }
+
+        $currentExp = $character->pivot->exp;
+        $newExp = $currentExp + $validated['exp'];
+
+        $newRole = OrganizationRoleService::getNewRoleByExp($newExp, $character);
+
+        $dataToUpdate = [
+            'exp' => $newExp,
+            'updated_at' => now(),
+        ];
+
+        if ($newRole) {
+            $dataToUpdate['role'] = $newRole->value;
+        }
+
+        $organization->characters()->updateExistingPivot($character->id, $dataToUpdate);
+
+        return response()->json([
+            'message' => 'Персонажу был добавлен опыт'
+        ]);
+    }
+
+    public function demoteMember(Organization $organization, DemoteMemberRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $character = $organization->characters()
+            ->wherePivot('character_id', $validated['character_id'])
+            ->first();
+
+        if (! $character) {
+            return response()->json([
+                'message' => 'Данного перса нету в орге'
+            ]);
+        }
+
+        $currentExp = $character->pivot->exp;
+        $newExp = $currentExp - $validated['exp'];
+
+        $newRole = OrganizationRoleService::getNewRoleByExp($newExp, $character);
+
+        $dataToUpdate = [
+            'exp' => $newExp,
+            'updated_at' => now(),
+        ];
+
+        if ($newRole) {
+            $dataToUpdate['role'] = $newRole->value;
+        }
+
+        $organization->characters()->updateExistingPivot($character->id, $dataToUpdate);
+
+        return response()->json([
+            'message' => 'Персонажу был снят опыт'
         ]);
     }
 

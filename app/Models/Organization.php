@@ -19,7 +19,8 @@ class Organization extends Model
 
     public function characters(): BelongsToMany
     {
-        return $this->belongsToMany(Character::class);
+        return $this->belongsToMany(Character::class)
+            ->withPivot(['role', 'exp', 'created_at', 'updated_at']);
     }
 
     public function parent(): BelongsTo

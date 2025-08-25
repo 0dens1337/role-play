@@ -55,7 +55,7 @@ class OrganizationController extends Controller
     public function show(){}
 
     #[OA\Post(
-        path: "/api/admin/{organization}/add-members",
+        path: "/api/organizations/{organization}/add-members",
         summary: "Создать ручное добавление персонажа к орге",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
@@ -82,7 +82,7 @@ class OrganizationController extends Controller
     public function addMembers(){}
 
     #[OA\Post(
-        path: "/api/admin/{organization}/kick-members",
+        path: "/api/organizations/{organization}/kick-members",
         summary: "Создать ручное удаление персонажа в орге",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
@@ -108,8 +108,62 @@ class OrganizationController extends Controller
     )]
     public function kickMember(){}
 
+    #[OA\Patch(
+        path: "/api/organizations/{organization}/promote-members",
+        summary: "Ручная выдача опыта персу (max = 50) | также для админа ручка api/admin",
+        security: [['cookieAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/PromoteMemberRequest")
+        ),
+        tags: ["Organizations"],
+        parameters: [
+            new OA\Parameter(
+                name: "organization",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Перс удален из оргу",
+            ),
+            new OA\Response(response: 422, description: "Ошибка валидации")
+        ]
+    )]
+    public function promoteMember(){}
+
+    #[OA\Patch(
+        path: "/api/organizations/{organization}/demote-members",
+        summary: "Ручное снятие опыта персу (max = 100) | также для админа ручка api/admin",
+        security: [['cookieAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/DemoteMemberRequest")
+        ),
+        tags: ["Organizations"],
+        parameters: [
+            new OA\Parameter(
+                name: "organization",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Перс удален из оргу",
+            ),
+            new OA\Response(response: 422, description: "Ошибка валидации")
+        ]
+    )]
+    public function demoteMember(){}
+
     #[OA\Post(
-        path: "/api/admin/create",
+        path: "/api/admin/organizations/create",
         summary: "Создать оргу",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
