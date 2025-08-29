@@ -17,7 +17,7 @@ class OrganizationRoleService
 
         $newRole = collect($eligibleRoles)->sortByDesc(fn($role) => $role->value)->first();
 
-        $currentRole = RoleOrganizationEnum::tryFrom($character->role);
+        $currentRole = RoleOrganizationEnum::tryFrom($character->pivot->role);
 
         return (!$currentRole || $newRole->value > $currentRole->value) ? $newRole : null;
     }

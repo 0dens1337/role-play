@@ -60,7 +60,7 @@ class LocationController extends Controller
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: "#/components/schemas/StoreLocationRequest")
+            content: new OA\JsonContent(ref: "#/components/schemas/CreateMissionRequest")
         ),
         tags: ["Locations"],
         responses: [
@@ -75,7 +75,7 @@ class LocationController extends Controller
     public function create(){}
 
     #[OA\Patch(
-        path: "/api/locations/{location}/show",
+        path: "/api/locations/{location}/update",
         summary: "Обновить location",
         security: [['cookieAuth' => []]],
         requestBody: new OA\RequestBody(

@@ -38,6 +38,11 @@ class Organization extends Model
         return $this->hasMany(Location::class);
     }
 
+    public function missions(): HasMany
+    {
+        return $this->hasMany(Mission::class);
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when(isset($filters['name']), function ($query) use ($filters) {

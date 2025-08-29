@@ -45,6 +45,13 @@ class Character extends Model
         return $this->belongsToMany(Organization::class);
     }
 
+    public function missions(): BelongsToMany
+    {
+        return $this->belongsToMany(Mission::class, 'character_missions')
+            ->withPivot(['status', 'image_proof', 'description_proof'])
+            ->withTimestamps();
+    }
+
     public function scopeFilter($query, array $filters): void
     {
         $query->when(isset($filters['name']), function ($query) use ($filters) {

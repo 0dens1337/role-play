@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CharacterMetaController;
 use App\Http\Controllers\Api\DiffController;
 use App\Http\Controllers\Api\InviteCodeController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\NpcController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\ProfileController;
@@ -91,6 +92,19 @@ Route::middleware('checkToken')->group(function () {
        Route::post('/create', [LocationController::class, 'create'])->name('create');
        Route::patch('/{location}/update', [LocationController::class, 'update'])->name('update');
        Route::delete('/{location}/delete', [LocationController::class, 'delete'])->name('delete');
+    });
+
+    Route::prefix('missions')->name('missions.')->group(function () {
+        Route::get('/', [MissionController::class, 'index'])->name('index');
+        Route::get('/{mission}/show', [MissionController::class, 'show'])->name('show');
+        Route::post('/create', [MissionController::class, 'create'])->name('create');
+        Route::patch('/{mission}/update', [MissionController::class, 'update'])->name('update');
+        Route::delete('/{mission}/delete', [MissionController::class, 'delete'])->name('delete');
+        Route::post('/{mission}/take', [MissionController::class, 'takeMission'])->name('take-mission');
+        Route::post('/{mission}/send-to-review', [MissionController::class, 'sendMissionToReview'])->name('send-mission');
+        Route::get('/{organization}/missions-to-review', [MissionController::class, 'indexMissionsToReview'])->name('missions-to-review');
+        Route::patch('/{mission}/accept-mission', [MissionController::class, 'acceptMission'])->name('accept-mission');
+        Route::patch('/{mission}/reject-mission', [MissionController::class, 'rejectMission'])->name('reject-mission');
     });
 
     Route::middleware('admin')->group(function () {
