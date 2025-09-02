@@ -17,6 +17,7 @@ use App\Services\AvatarService;
 use App\Services\OrganizationRoleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 
 class OrganizationController extends Controller
 {
@@ -36,6 +37,8 @@ class OrganizationController extends Controller
 
     public function create(CreateOrganizationRequest $request): ShowOrganizationResource
     {
+        Gate::authorize('create', Organization::class);
+
         $validated = $request->validated();
         $file = $request->file('logo');
 
@@ -48,6 +51,8 @@ class OrganizationController extends Controller
 
     public function addMembers(Organization $organization, AddMemberRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $organization);
+
         $charactersIds = $request->validated()['character_ids'];
 
         if ($organization->characters()->wherePivotIn('character_id', $charactersIds)->exists()) {
@@ -69,6 +74,8 @@ class OrganizationController extends Controller
 
     public function kickMember(Organization $organization, KickMemberRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $organization);
+
         $validated = $request->validated();
 
         if (! $organization->characters()->wherePivot('character_id', $validated['character_id'])->exists()) {
@@ -86,6 +93,8 @@ class OrganizationController extends Controller
 
     public function promoteMember(Organization $organization, PromoteMemberRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $organization);
+
         $validated = $request->validated();
 
         $character = $organization->characters()
@@ -121,6 +130,8 @@ class OrganizationController extends Controller
 
     public function demoteMember(Organization $organization, DemoteMemberRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $organization);
+
         $validated = $request->validated();
 
         $character = $organization->characters()
@@ -161,6 +172,8 @@ class OrganizationController extends Controller
 
     public function update(UpdateOrganizationRequest $request, Organization $organization): AnonymousResourceCollection
     {
+        Gate::authorize('update', $organization);
+
         $validated = $request->validated();
 
         return ShowOrganizationResource::make($organization->update($validated));
@@ -168,6 +181,8 @@ class OrganizationController extends Controller
 
     public function delete(Organization $organization): JsonResponse
     {
+        Gate::authorize('delete', $organization);
+
         $organization->delete();
 
         return response()->json([

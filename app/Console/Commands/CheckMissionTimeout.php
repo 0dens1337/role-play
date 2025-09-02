@@ -3,11 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Enums\MissionStatusEnum;
-use App\Models\Mission;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class CheckMissionTimeout extends Command
 {

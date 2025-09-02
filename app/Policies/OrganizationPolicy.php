@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\RoleOrganizationEnum;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -29,6 +30,10 @@ class OrganizationPolicy
      */
     public function create(User $user): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -37,6 +42,10 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -45,6 +54,10 @@ class OrganizationPolicy
      */
     public function delete(User $user, Organization $organization): bool
     {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -61,6 +74,26 @@ class OrganizationPolicy
      */
     public function forceDelete(User $user, Organization $organization): bool
     {
+        return false;
+    }
+
+    public function manage(Organization $organization, User $user): bool
+    {
+        if ($user->hasAdminAccess() || $user->hasSuperAdminAccess()) {
+            return true;
+        }
+
+        foreach ($user->characters as $character) {
+            $pivot = $character->organization()
+                ->where('organization_id', $organization->id)
+                ->wherePivotIn('role', [RoleOrganizationEnum::LEADER->value, RoleOrganizationEnum::RIGHT_HAND->value])
+                ->first();
+
+            if ($pivot) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

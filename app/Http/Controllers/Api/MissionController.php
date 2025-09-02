@@ -19,6 +19,7 @@ use App\Services\ExpCalculationService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 
 class MissionController extends Controller
 {
@@ -43,6 +44,10 @@ class MissionController extends Controller
 
     public function create(CreateMissionRequest $request): MissionShowResource
     {
+        $organizationId = $request->validated()['organization_id'] ?? null;
+
+        Gate::authorize('create', [Mission::class, $organizationId]);
+
         $mission = Mission::query()
             ->create($request->validated());
 
@@ -51,11 +56,15 @@ class MissionController extends Controller
 
     public function update(Mission $mission, UpdateMissionRequest $request): MissionShowResource
     {
+        Gate::authorize('manage', $mission);
+
         return MissionShowResource::make($mission->update($request->validated()));
     }
 
     public function delete(Mission $mission): JsonResponse
     {
+        Gate::authorize('manage', $mission);
+
         $mission->delete();
 
         return response()->json([
@@ -132,6 +141,8 @@ class MissionController extends Controller
 
     public function acceptMission(Mission $mission, ReviewMissionRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $mission);
+
         $validated = $request->validated();
 
         $mission->load('organization.characters');
@@ -151,6 +162,8 @@ class MissionController extends Controller
 
     public function rejectMission(Mission $mission, ReviewMissionRequest $request): JsonResponse
     {
+        Gate::authorize('manage', $mission);
+
         $validated = $request->validated();
 
         $mission->characters()
