@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->prepend(HandleCors::class);
+        $middleware->appendToGroup('api', HandleCors::class);
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'checkToken' => HasTokenInCookie::class,
