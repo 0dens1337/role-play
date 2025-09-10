@@ -26,7 +26,7 @@ class InviteCodeController extends Controller
     public function index(){}
 
     #[OA\Get(
-        path: "/api/guests/invites",
+        path: "/api/guest/invites",
         summary: "Кол-во символов у кода",
         security: [['cookieAuth' => []]],
         tags: ["Invite Code"],
