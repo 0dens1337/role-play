@@ -17,15 +17,15 @@ class EnsureInviteValidated
     public function handle(Request $request, Closure $next): Response
     {
         $cookie = $request->cookie('invite_code');
-        if (!$cookie) {
+        if (! $cookie) {
             return response()->json([
                 'message' => 'Сначала введите invite code',
             ], Response::HTTP_BAD_REQUEST);
         }
 
         $code = decrypt($cookie);
-        $inviteCode = InviteCode::where('code', $code)->first();
-        if (!$inviteCode) {
+        $inviteCode = InviteCode::query()->where('code', $code)->first();
+        if (! $inviteCode) {
             return response()->json([
                 'message' => 'Не верный invite code',
             ], Response::HTTP_BAD_REQUEST);
