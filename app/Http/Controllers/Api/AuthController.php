@@ -92,8 +92,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $user = auth()->user();
-        $user->tokens()->where('id', $user->currentAccessToken())->delete();
+        Auth::logoutCurrentDevice();
 
         return response()->json(['message' => 'Успешный лог аут'])
             ->withoutCookie('auth_token');
