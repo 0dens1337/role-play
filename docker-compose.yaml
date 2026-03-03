@@ -12,6 +12,18 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
   nginx:
     container_name: nginx
     image: nginx:1.25.5-alpine
@@ -46,6 +58,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  pgadmin_data:
     driver: local
   caddy_data:
   caddy_config:
